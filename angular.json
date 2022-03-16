@@ -33,6 +33,13 @@
             "styles": [
               "src/app/core/sass/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+                "includePaths": [
+                  "src/app/core/sass",
+                  "src/app/core/sass/base",
+                  "src/app/core/sass/partials"
+                ]
+            },
             "scripts": []
           },
           "configurations": {

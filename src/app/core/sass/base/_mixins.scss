@@ -1,0 +1,47 @@
+@mixin respond-above($breakpoint) {
+    @if map-has-key($breakpoints , $breakpoint) {
+        $breakpoint-value: map-get($breakpoints, $breakpoint);
+        @media (min-width: $breakpoint-value) {
+            @content;
+        }
+    } @else {
+        @warn 'Invalid breakpoint: #{$breakpoint}.';
+    }
+}
+@mixin respond-below($breakpoint) {
+    @if map-has-key($breakpoints , $breakpoint) {
+        $breakpoint-value: map-get($breakpoints, $breakpoint);
+        @media (max-width: ($breakpoint-value - 1 )) {
+            @content;
+        }
+    } @else {
+        @warn 'Invalid breakpoint: #{$breakpoint}.';
+    }
+}
+@mixin respond-between($lower, $upper) {
+    @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
+        $lower-breakpoint: map-get($breakpoints, $lower);
+        $upper-breakpoint: map-get($breakpoints, $upper);
+        @media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
+            @content;
+        }
+    } @else {
+        @if (map-has-key($breakpoints, $lower) == false) {
+            @warn 'Lower breakpoint was invalid: #{$lower}.';
+        }
+        @if (map-has-key($breakpoints, $upper) == false) {
+            @warn 'Upper breakpoint was invalid: #{$upper}.';
+        }
+    }
+}
+
+@mixin main-bg-gra-color {
+    background: linear-gradient(269.59deg, #3F85F6 -12.09%, #468AF7 5.6%, #5898F9 16.65%, #6FA9FA 28.83%, #82B7FB 40.81%, #99C8FE 52.8%, #A6CFFD 63.25%, #B6D8FE 74.69%, #C4DFFD 83.98%, #D0E5FD 91.6%, #D8E9FE 97.7%, #D9E9FE 110.64%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+@mixin main-font-family {
+    font-family: 'Trebuchet MS', sans-serif;
+}

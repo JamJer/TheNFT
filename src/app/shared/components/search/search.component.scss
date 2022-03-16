@@ -1,0 +1,27 @@
+@import 'styles.scss';
+
+.search-wrapper {
+    display: flex;
+    justify-self: center;
+    align-self: center;
+    width: 100%;
+
+    .search-input[type=search] {
+        @include main-font-family;
+        border: 1px solid $defaultborderColor;
+        border-radius: 30px;
+        background: transparent;
+        padding: 0.4rem 2.3rem;
+        color: gainsboro;
+
+        &:focus {
+            border-color: darkturquoise;
+        }
+    }
+    .search-icon {
+        position: absolute;
+        margin-left: 15px;
+        margin-top: 8px;
+        color: $defaultborderColor;
+    }
+}

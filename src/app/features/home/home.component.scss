@@ -1,0 +1,24 @@
+.home-header-item { 
+    grid-area: header;
+    background-color: crimson;
+}
+.home-menu-item { 
+    grid-area: menu;
+    background-color: cyan; 
+}
+.home-main-item { 
+    grid-area: main; 
+    background-color: darkcyan;
+}
+.home-footer-item { 
+    grid-area: footer; 
+    background-color: darkslateblue;
+}
+.home-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr));
+    grid-template-areas: 
+        'header header header header header header'
+        'menu   main   main   main   main   main'
+        'footer footer footer footer footer footer';
+}

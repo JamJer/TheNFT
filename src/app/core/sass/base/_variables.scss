@@ -1,0 +1,11 @@
+$breakpoints: (
+    xs: 0px,
+    sm: 576px,
+    md: 768px,
+    lg: 992px,
+    xl: 1200px,
+    xxl: 1400px
+) !default;
+
+$defaultbackgroundColor: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
+$defaultborderColor: #3E3E3E;
