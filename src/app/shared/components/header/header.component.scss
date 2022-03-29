@@ -3,7 +3,7 @@
 
 @function generate-positions ($n) {
     $xmaxstarposition: 2560;
-    $ymaxstarposition: 500;
+    $ymaxstarposition: 2500;
     $neoneffect: '1px 1px #38d2cc';
     $value: '#{random($xmaxstarposition)}px #{random($ymaxstarposition)}px #{$neoneffect}';
     @for $i from 2 to $n {
@@ -82,7 +82,7 @@
                 line-height: 20px;
                 color: #FFFFFF;
                 padding-top: 0.5rem;
-
+                transition: all 0.4s;
                 &:hover {
                     transform: scale(1.3);
                 }
@@ -92,6 +92,46 @@
         .navbar-search {
             margin-left: auto;
             align-self: center;
+        }
+    }
+
+    .header-promo {
+        display: flex;
+        width: 100%;
+        min-height: 23rem;
+        justify-content: center;
+        background-color: transparent;
+        @include main-font-family;
+
+        .promo-left {
+            max-width: 600px;
+            padding-top: 2rem;
+            .first-title{
+                
+                span {
+                    color: white;
+                    font-size: 4rem;
+                }
+            }
+
+            .second-title {
+                display: block;
+                font-size: 1.5rem;
+                color: gray;
+            }
+        }
+
+        .promo-right {
+            max-width: 600px;
+            color: #FFFFFF;
+            background-image: url('../../../../assets/image/promo/SpinEarth2.gif');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: 0rem -1rem;
+        }
+
+        .flex-1 {
+            flex: 1;
         }
     }
 }

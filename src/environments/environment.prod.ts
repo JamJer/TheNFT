@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  APIVer: 'v0',
+  APIUrl: 'https://api.nftport.xyz/',
+  APIKey: 'da32010e-cc1c-4630-a0e2-ae9466b82800'
 };

@@ -1,6 +1,6 @@
 <div class="header-container">
     <div class="header-stars-background"></div>
-    <div class="header-navbar-wrap">
+    <div @fadeFromTop class="header-navbar-wrap">
         <div class="navbar-title">
             <a href="#">TheNFT</a>
         </div>
@@ -11,6 +11,18 @@
         </div>
         <div class="navbar-search">
             <app-search></app-search>
+        </div>
+    </div>
+    <div class="header-promo">
+        <div class="promo-left flex-1">
+            <div @fadeFromLeft class="first-title" *ngIf="true">
+                <span>Expore the NFT world, collect and sell your artwork</span>
+            </div>
+            <div @fadeFromBottom class="second-title">
+                <span>Trade with Simpler and Smarter NFT World</span>
+            </div>
+        </div>
+        <div @fadeFromTop class="promo-right flex-1">
         </div>
     </div>
 </div>
