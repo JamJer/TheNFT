@@ -5,17 +5,22 @@
     justify-self: center;
     align-self: center;
     width: 100%;
+    transition: all 0.4s;
 
-    .search-input[type=search] {
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    .search-input[type=text] {
         @include main-font-family;
         border: 1px solid $defaultborderColor;
         border-radius: 30px;
         background: transparent;
         padding: 0.4rem 2.3rem;
         color: gainsboro;
-
-        &:focus {
-            border-color: darkturquoise;
+        width: 10rem;
+        &:hover {
+            @include main-bg-gra-color;
         }
     }
     .search-icon {

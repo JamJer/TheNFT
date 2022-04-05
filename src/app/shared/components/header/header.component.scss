@@ -40,6 +40,30 @@
     }	
 }
 
+@keyframes wiggle {
+    0%, 7% {
+      transform: rotateZ(0);
+    }
+    15% {
+      transform: rotateZ(-15deg);
+    }
+    20% {
+      transform: rotateZ(10deg);
+    }
+    25% {
+      transform: rotateZ(-10deg);
+    }
+    30% {
+      transform: rotateZ(6deg);
+    }
+    35% {
+      transform: rotateZ(-4deg);
+    }
+    40%, 100% {
+      transform: rotateZ(0);
+    }
+}
+
 .header-container {
     background: $defaultbackgroundColor;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -57,6 +81,9 @@
 
         .navbar-title {
             
+            &:hover {
+                animation: wiggle 2s linear;
+            }
             a {
                 @include main-font-family;
                 font-style: normal;
@@ -99,18 +126,20 @@
         display: flex;
         width: 100%;
         min-height: 23rem;
+        padding: 0 10vw;
         justify-content: center;
         background-color: transparent;
         @include main-font-family;
 
         .promo-left {
-            max-width: 600px;
+            flex-flow: 1;
+            flex-basis: 10rem;
             padding-top: 2rem;
             .first-title{
                 
                 span {
                     color: white;
-                    font-size: 4rem;
+                    font-size: 3.5rem;
                 }
             }
 
@@ -122,12 +151,12 @@
         }
 
         .promo-right {
-            max-width: 600px;
+            flex-shrink: 0;
+            flex-basis: 10rem;
             color: #FFFFFF;
             background-image: url('../../../../assets/image/promo/SpinEarth2.gif');
             background-repeat: no-repeat;
-            background-size: contain;
-            background-position: 0rem -1rem;
+            background-position: center;
         }
 
         .flex-1 {
@@ -158,9 +187,81 @@
             }
 
             .navbar-search {
-                margin-top: 0.5rem;
                 margin-left: 0;
+                margin-top: 0.5rem;
                 align-self: center;
+            }
+        }
+
+        .header-promo {
+            padding: 0 2vw;
+            min-height: 12rem;
+            .promo-left {
+                text-align: center;
+                padding-left: 5vw;
+                padding-right: 5vw;
+                padding-top: 0;
+                .first-title {
+
+                    span {
+                        font-size: 2rem;
+                    }
+                }
+
+                .second-title {
+                    font-size: 1rem;
+                }
+            }
+
+            .promo-right {
+                display: none;
+            }
+        }
+    }
+}
+
+@include respond-between(sm, lg) {
+    .header-container {
+        
+        .header-navbar-wrap {
+
+            .navbar-search {
+            }
+        }
+
+        .header-promo {
+            .promo-left {
+                .first-title {
+                    span {
+                        font-size: 4rem;
+                    }
+                }
+
+                .second-title {
+                     
+                }
+            }
+
+            .promo-right {
+                display: none;
+            }
+        }
+    }
+}
+
+@include respond-between(lg, xl) {
+    .header-container {
+        .header-promo {
+            .promo-left {
+                .first-title {
+                    span {
+                        font-size: 3.5rem;
+                    }
+                }
+
+                .second-title {
+                    font-size: 1.2rem;
+                }
             }
         }
     }
