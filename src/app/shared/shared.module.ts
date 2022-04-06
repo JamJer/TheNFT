@@ -6,7 +6,7 @@ import { COMPONENTS } from "./components";
 
 @NgModule({
     imports: [CommonModule, FormsModule, FontAwesomeModule],
-    declarations: [...COMPONENTS, ],
+    declarations: [...COMPONENTS ],
     exports: [...COMPONENTS],
 })
 export class SharedModule {}

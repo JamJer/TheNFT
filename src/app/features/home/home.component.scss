@@ -1,18 +1,22 @@
+@import '../../core/sass/styles.scss';
+
 .home-header-item { 
     grid-area: header;
-    background-color: crimson;
+    background-color: $defaultbackgroundColor;
 }
 .home-menu-item { 
     grid-area: menu;
-    background-color: cyan; 
+    background-color: $defaultbackgroundColor; 
 }
 .home-main-item { 
     grid-area: main; 
-    background-color: darkcyan;
+    background-color: $defaultMainContentColor;
+    min-height: 2048px;
+    padding: 1rem 2rem;
 }
 .home-footer-item { 
     grid-area: footer; 
-    background-color: darkslateblue;
+    background-color: $defaultbackgroundColor;
 }
 .home-container {
     display: grid;

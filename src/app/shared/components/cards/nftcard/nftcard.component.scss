@@ -1,0 +1,46 @@
+@import '../../../../core/sass/styles.scss';
+
+.NFTCard-container {
+    $borderRadius: 10px;
+    display: block;
+    border: none;
+    border-radius: $borderRadius;
+    background-color: $defaultbackgroundColor;
+    width: 17rem;
+    height: 22rem;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    @include box-shadow-default;
+
+    .NFT-image-container {
+        border: none;
+        border-radius: $borderRadius;
+        background-color: darkgray;
+        width: 100%;
+        height: 16rem;
+
+        img {
+            border-radius: $borderRadius;
+        }
+    }
+
+    .NFT-content {
+        .NFT-title {
+            text-align: center;
+            @include main-font-family;
+            color: whitesmoke;
+            font-style: oblique;
+            line-height: .1rem;
+        }
+
+        .seperate-line {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
+            margin: 20px 10px 40px 10px;
+
+           
+        }
+    }
+}
