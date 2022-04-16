@@ -10,8 +10,12 @@
     height: 22rem;
     padding: 0.5rem;
     cursor: pointer;
-
+    transition: all .1s ease-out;
     @include box-shadow-default;
+
+    &:hover {
+        transform: scale(1.05);
+    }
 
     .NFT-image-container {
         border: none;
@@ -38,9 +42,13 @@
             border: 0;
             height: 1px;
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
-            margin: 20px 10px 40px 10px;
+            margin: 20px 10px 14px 10px;
+        }
 
-           
+        .NFT-description {
+            color: whitesmoke;
+            @include main-font-family;
+            margin: 5px;
         }
     }
 }

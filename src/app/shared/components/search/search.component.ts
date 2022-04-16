@@ -22,10 +22,10 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
 
   onSearchNFT$ = new Subject<KeyboardEvent>();
 
-  validSearch$: Observable<any> | undefined;
-  emptySearch$: Observable<any> | undefined;
+  validSearch$?: Observable<any>;
+  emptySearch$?: Observable<any>;
   
-  subscription: Subscription | undefined;
+  subscription?: Subscription;
   
   constructor(private dataservice: DataService) {
     super();
@@ -33,7 +33,7 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
 
   ngOnInit(): void {
     this.validSearch$ = this.onSearchNFT$.pipe(
-      debounceTime(1000),
+      debounceTime(500),
       map(event => (<HTMLInputElement>event.target).value),
       distinctUntilChanged(),
       filter(input => input !== ""),
