@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../../environments/environment.prod';
 import { catchError, map, Observable, of } from 'rxjs';
 import { NFTPreview } from '../models';
+import { UIService } from './ui.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class DataService {
     chain: string = 'ethereum', 
     order_by: string = 'relevance', 
     page_number: number = 1, 
-    page_size: number = 10
+    page_size: number = 15
   ) {
     const path: string = this.APIPath + this.APIFuctions[0];
     const headers = new HttpHeaders({
@@ -43,7 +44,7 @@ export class DataService {
     chain: string = 'ethereum', 
     continuation: string = 'None', 
     include: string = 'metadata',
-    page_size: number = 5
+    page_size: number = 15
   ) {
     const path: string = this.APIPath + this.APIFuctions[1];
     const headers = new HttpHeaders({

@@ -11,7 +11,7 @@ import {
   Subscription, 
   switchMap 
 } from 'rxjs';
-import { BaseComponent, DataService } from 'src/app/core';
+import { BaseComponent, DataService, UIService } from 'src/app/core';
 
 @Component({
   selector: 'app-search',
@@ -21,19 +21,19 @@ import { BaseComponent, DataService } from 'src/app/core';
 export class SearchComponent extends BaseComponent implements OnInit, OnDestroy {
 
   onSearchNFT$ = new Subject<KeyboardEvent>();
-
   validSearch$?: Observable<any>;
   emptySearch$?: Observable<any>;
-  
   subscription?: Subscription;
   
-  constructor(private dataservice: DataService) {
+  delayTime: number = 500;
+
+  constructor(private dataservice: DataService, private uiservice: UIService) {
     super();
    }
 
   ngOnInit(): void {
     this.validSearch$ = this.onSearchNFT$.pipe(
-      debounceTime(500),
+      debounceTime(this.delayTime),
       map(event => (<HTMLInputElement>event.target).value),
       distinctUntilChanged(),
       filter(input => input !== ""),
@@ -41,7 +41,7 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
     );
 
     this.emptySearch$ = this.onSearchNFT$.pipe(
-      debounceTime(1000),
+      debounceTime(this.delayTime),
       map(event => (<HTMLInputElement>event.target).value),
       filter(input => input === ""),
       switchMap(data => of({}))
@@ -49,7 +49,7 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
     
     this.subscription = merge(this.validSearch$, this.emptySearch$).subscribe(
       response => {
-        console.log(response);
+        this.uiservice.addToSearchNFTs(response.search_results);
       }
     );
   }

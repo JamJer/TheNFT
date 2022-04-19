@@ -35,20 +35,31 @@
             @include main-font-family;
             color: whitesmoke;
             font-style: oblique;
-            line-height: .1rem;
+            text-overflow: ellipsis;
+            white-space:nowrap;
+            overflow: hidden;
+            margin: 5px;
+            @include main-bg-gra-color;
         }
 
         .seperate-line {
             border: 0;
             height: 1px;
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
-            margin: 20px 10px 14px 10px;
+            margin: 6px 10px 7px 10px;
         }
 
         .NFT-description {
-            color: whitesmoke;
-            @include main-font-family;
-            margin: 5px;
+            p {
+                color: whitesmoke;
+                @include main-font-family;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow: hidden;
+                font-size: 5px;
+                margin: 5px 10px;
+            }
         }
     }
 }

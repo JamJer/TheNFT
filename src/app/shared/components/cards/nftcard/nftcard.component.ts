@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DataService } from 'src/app/core';
-import { NFTPreview } from 'src/app/core';
+import { NFTPreview, DataService, ToolsService } from 'src/app/core';
 import { ScaleFade, ScaleFadeStagger } from 'src/app/shared/animations';
 
 @Component({
@@ -16,9 +15,11 @@ export class NFTCardComponent implements OnInit {
   @Input()
   cardObj!: NFTPreview;
 
-  constructor(private ds: DataService) { }
+  isImage: boolean = false;
+  
+  constructor(private ds: DataService, private ts: ToolsService) { }
 
   ngOnInit(): void {
+    
   }
-
 }
