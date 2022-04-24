@@ -1,12 +1,6 @@
 <div class="NFTCard-container" @scaleFade>
     <div class="NFT-image-container">
-        <div class="image-loading" *ngIf="isLoading" @fade>
-            <div class="loading-item"></div>
-            <div class="loading-item"></div>
-            <div class="loading-item"></div>
-            <div class="loading-item"></div>
-            <div class="loading-item"></div>
-        </div>
+        <app-bar-loading [isLoading]="isLoading"></app-bar-loading>
         <img
             *ngIf="isImage; else isVideo"
             [src]="cardObj?.cached_file_url"

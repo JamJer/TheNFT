@@ -1,0 +1,56 @@
+@import 'styles.scss';
+
+.image-loading {
+    $animation-duration: 1000ms;
+    $size: 75px;
+    $bar-color1: #3F85F6ff;
+    $bar-color2: #669EF8ff;
+    $bar-color3: #8CB7FAff;
+    $bar-color4: #B3D0FCff;
+    $bar-color5: #D9E9FEff;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    background-color: $defaultMainContentColor;
+    border-radius: 5px;
+    position: absolute;
+    
+    .loading-item {
+        height: calc($size * .4);
+        width: calc($size / 13);
+        animation: bar-animation $animation-duration ease-in-out infinite;
+
+        @keyframes bar-animation {
+            25% {
+                transform: scaleY(2);
+            }
+            50% {
+                transform: scaleY(1);
+            }
+        }
+
+        &:nth-child(1) {
+            background-color: $bar-color1;
+            animation-delay: calc($animation-duration / 6 * -1);
+        }
+        &:nth-child(2) {
+            background-color: $bar-color2;
+            animation-delay: calc($animation-duration / 6 * -2);
+        }
+        &:nth-child(3) {
+            background-color: $bar-color3;
+            animation-delay: calc($animation-duration / 6 * -3);
+        }
+        &:nth-child(4) {
+            background-color: $bar-color4;
+            animation-delay: calc($animation-duration / 6 * -4);
+        }
+        &:nth-child(5) {
+            background-color: $bar-color5;
+            animation-delay: calc($animation-duration / 6 * -5);
+        }
+    }
+}
