@@ -1,72 +1,67 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../../environments/environment.prod';
-import { catchError, map, Observable, of } from 'rxjs';
-import { NFTPreview } from '../models';
-import { UIService } from './ui.service';
+import { catchError, map, Observable, of, tap } from 'rxjs';
+import { NFTPreview, NFTsearchTypes, NFTSearchByText, APIFuncType } from '../models';
+import { UIService } from './ui.service'; 
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   APIPath: string = env.APIUrl + env.APIVer;
-  APIFuctions: Array<string> = ['/search', '/accounts'];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private uiservice: UIService) { }
   
-  searchNFT(
-    text: string, 
-    chain: string = 'ethereum', 
-    order_by: string = 'relevance', 
-    page_number: number = 1, 
-    page_size: number = 15
-  ) {
-    const path: string = this.APIPath + this.APIFuctions[0];
+  convertToObject(query: any) {
+    let result: Record<string,string> = {};
+    const keysOfProps = Object.keys(query);
+    for(let i = 0 ; i < keysOfProps.length ; i++) {
+      result[keysOfProps[i]] = String(query[keysOfProps[i]]);
+    }
+    return result;
+  }
+
+  isTextSearch(query: NFTsearchTypes): query is NFTSearchByText {
+    return (<NFTSearchByText>query).text !== undefined;
+  }
+
+  searchNFT(query: NFTsearchTypes): Observable<NFTPreview | {}> {
+    const path: string = this.APIPath + (this.isTextSearch(query) ? APIFuncType.searchByText : APIFuncType.searchByAccount);
     const headers = new HttpHeaders({
       'Authorization': env.APIKey,
       'Content-Type': 'application/json'
     });
-    const params = new HttpParams()
-      .set('text', text)
-      .set('chain', chain)
-      .set('order_by', order_by)
-      .set('page_number', page_number)
-      .set('page_size', page_size);
+    const params = new HttpParams({ fromObject: this.convertToObject(query) });
     const config = {
       headers,
       params
     };
+    this.uiservice.changeSearchingStatus(true);
+    this.uiservice.changeSearchQuery(query);
+
     return this._requestNFTs(path, config);
   }
 
-  searchNFTByAccount(
-    account: string, 
-    chain: string = 'ethereum', 
-    continuation: string = 'None', 
-    include: string = 'metadata',
-    page_size: number = 15
-  ) {
-    const path: string = this.APIPath + this.APIFuctions[1];
-    const headers = new HttpHeaders({
-      'Authorization': env.APIKey,
-      'Content-Type': 'application/json'
-    });
-    const params = new HttpParams()
-      .set('account', account)
-      .set('chain', chain)
-      .set('continuation', continuation)
-      .set('include', include)
-      .set('page_size', page_size);
-    const config = {
-      headers,
-      params
-    };
-    return this._requestNFTs(path, config);
+  scrollSearch(pageOffset: number) {
+    const currentQuery = this.uiservice.getSearchQuery();
+    if(!Object.keys(currentQuery).length) return;
+    if(this.uiservice.flipPage(pageOffset)) {
+      let obs$: Observable<any> = this.searchNFT(<NFTsearchTypes>currentQuery);
+      obs$.subscribe(
+        response => {
+          this.uiservice.addToSearchNFTs(response.search_results);
+        }
+      );
+    }
   }
 
-  _requestNFTs(path: any, config: any) {
+  _requestNFTs(path: any, config: any): Observable<NFTPreview[] | {}>{
     return this.http.get<Observable<NFTPreview[]>>(path, config).pipe(
       map(response => response),
+      tap(() => {
+        this.uiservice.changeSearchingStatus(false);
+      }),
       catchError((error) => {
         console.log(error);
         return of({});

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, filter, map, Observable } from 'rxjs';
-import { NFTPreview } from './../models';
+import { BehaviorSubject, map, Observable } from 'rxjs';
+import { NFTPreview, NFTSearchByAccount, NFTSearchByText } from './../models';
+import { ToolsService } from './tools.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,8 @@ import { NFTPreview } from './../models';
 export class UIService {
   private _stateSource$ = new BehaviorSubject<UIState>({
     searchNFTs: [],
-    isSearching: false 
+    isSearching: false,
+    searchQuery: {}
   });
 
   private _getCurrentState(): UIState {
@@ -17,12 +19,15 @@ export class UIService {
 
   state$ = this._stateSource$.asObservable();
   
-  constructor() { }
+  constructor(private toolService: ToolsService) { }
 
   addToSearchNFTs(NFTsToAdd: NFTPreview[]): void {
+    let current: NFTPreview[] = this._getCurrentState().searchNFTs;
+    let FilteredNFTsToAdd = this.toolService.filterInvalidNFT(NFTsToAdd);
+
     this._stateSource$.next({
       ...this._getCurrentState(),
-      searchNFTs: NFTsToAdd,
+      searchNFTs: current.concat(FilteredNFTsToAdd),
     });
   }
 
@@ -38,10 +43,42 @@ export class UIService {
       map(state => state.searchNFTs)
     );
   }
+
+  changeSearchingStatus(sw: boolean): void {
+    this._stateSource$.next({
+      ...this._getCurrentState(),
+      isSearching: sw,
+    });
+  }
+
+  selectSearchingStatus(): Observable<boolean> {
+    return this.state$.pipe(
+      map(state => state.isSearching),
+    );
+  }
+
+  changeSearchQuery(query: NFTSearchByText | NFTSearchByAccount | {}): void {
+    this._stateSource$.next({
+      ...this._getCurrentState(),
+      searchQuery: query,
+    });
+  }
+
+  getSearchQuery(): NFTSearchByText | NFTSearchByAccount | {} {
+    return this._getCurrentState().searchQuery;
+  }
+
+  flipPage(pageOffset: number): boolean {
+    let currentQuery: any = this.getSearchQuery();
+    if( currentQuery === {}) return false;
+    currentQuery.page_number += pageOffset;
+    this.changeSearchQuery(currentQuery);
+    return true;
+  }
 }
 
 export interface UIState {
-  // filters
   searchNFTs: NFTPreview[];
-  isSearching: boolean
+  isSearching: boolean;
+  searchQuery: NFTSearchByText | NFTSearchByAccount | {};
 }
