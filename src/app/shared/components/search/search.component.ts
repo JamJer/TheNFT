@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { 
   debounceTime, 
   distinctUntilChanged, 
@@ -14,11 +14,12 @@ import {
 } from 'rxjs';
 import { 
   BaseComponent, 
-  NFTSearchByText,
   chainType, 
   order_type,
   DataService, 
-  UIService 
+  UIService, 
+  UIFuncType,
+  pageSize
 } from 'src/app/core';
 
 @Component({
@@ -27,6 +28,8 @@ import {
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent extends BaseComponent implements OnInit, OnDestroy {
+  @Input()
+  isOnHeader: boolean = false;
 
   onSearchNFT$ = new Subject<KeyboardEvent>();
   validSearch$?: Observable<any>;
@@ -34,20 +37,23 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
   subscription?: Subscription;
   
   delayTime: number = 500;
-  default_page_num: number = 1;
-  default_page_size: number = 10;
+
+  queryString: string = '';
 
   constructor(private dataservice: DataService, private uiservice: UIService) {
     super();
    }
 
   ngOnInit(): void {
-    let querytext: NFTSearchByText = {
-      text: '',
+    const currentQuery = this.uiservice.SearchQuery;
+    this.queryString = currentQuery.text ?? '';
+
+    const querytext = {
+      text: this.queryString,
       chain: chainType.ethereum, 
       order_by: order_type.relevance, 
-      page_number: this.default_page_num, 
-      page_size: this.default_page_size
+      page_number: 1, 
+      page_size: pageSize.default
     };
 
     this.validSearch$ = this.onSearchNFT$.pipe(
@@ -58,6 +64,7 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
       tap((text) => {
         querytext.text = text;
         this.uiservice.clearSearchNFTs();
+        this.uiservice.UIStatus = UIFuncType.searching;
       }),
       switchMap(data => this.dataservice.searchNFT(querytext))
     );
@@ -70,8 +77,11 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
     
     this.subscription = merge(this.validSearch$, this.emptySearch$).subscribe(
       response => {
-        if(Object.keys(response).length) this.uiservice.addToSearchNFTs(response.search_results);
-        else this.uiservice.clearSearchNFTs();
+        if(!Object.entries(response).length) {
+          this.uiservice.SearchingStatus = false;
+          this.uiservice.clearSearchNFTs();
+        }
+        this.uiservice.addToSearchNFTs(response);
       }
     );
   }

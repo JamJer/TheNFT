@@ -1,21 +1,21 @@
 <div class="header-container">
     <div class="header-stars-background"></div>
-    <div @fadeFromTop class="header-navbar-wrap">
+    <div @fadeFromTop class="header-navbar-wrap" [ngClass]="{'header-navbar-scroll': (UIType$ | async) !== UITypes.default}">
         <div class="navbar-title">
-            <a href="#">TheNFT</a>
+            <a href="javascript:void(0)" (click)="setUI(UITypes.default)">TheNFT</a>
         </div>
         <div class="navbar-options">
-            <a href="#">Expore</a>
-            <a href="#">Create</a>
-            <a href="#">Feed</a>
+            <a href="javascript:void(0)" (click)="setUI(UITypes.searching)">Expore</a>
+            <a href="javascript:void(0)">Create</a>
+            <a href="javascript:void(0)">Feed</a>
         </div>
-        <div class="navbar-search">
-            <app-search></app-search>
+        <div class="navbar-search" [hidden]="(UIType$ | async) !== UITypes.default">
+            <app-search [isOnHeader]="true"></app-search>
         </div>
     </div>
-    <div class="header-promo">
+    <div class="header-promo" *ngIf="(UIType$ | async) === UITypes.default">
         <div class="promo-left flex-1">
-            <div @fadeFromLeft class="first-title" *ngIf="true">
+            <div @fadeFromLeft class="first-title">
                 <span>Expore the NFT world, collect and sell your artwork</span>
             </div>
             <div @fadeFromBottom class="second-title">

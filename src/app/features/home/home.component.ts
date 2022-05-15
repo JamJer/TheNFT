@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { IInfiniteScrollEvent } from 'ngx-infinite-scroll';
+import { filter, Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import { 
         BaseComponent, 
-        NFTPreview,
         UIService, 
-        DataService 
+        DataService, 
+        UIFuncType
 } from 'src/app/core';
 
 @Component({
@@ -13,27 +14,39 @@ import {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends BaseComponent implements OnInit {
-  NFTSearchCards$?: Observable<NFTPreview[]>;
-  isNFTSearching$?: Observable<boolean>;
+  UIType$?: Observable<UIFuncType>;
+  UITypes = UIFuncType;
+  onScrollDown$ = new Subject<IInfiniteScrollEvent>();
+  scrolldown$?: Observable<any>;
 
   scrollDownDistance: number = .5;
   scrollUpDistance: number = .5;
   scrollThrottle: number = 300;
+
 
   constructor(private uiService: UIService, private dataservice: DataService) { 
     super();
   }
 
   ngOnInit() {
-    this.NFTSearchCards$ = this.uiService.selectSearchNFTs();
-    this.isNFTSearching$ = this.uiService.selectSearchingStatus();
+    this.UIType$ = this.uiService.selectUIStatus();
+    this.initScrollListener();
   }
-  onScrollDown() {
-    console.log("Scroll down");
-    this.dataservice.scrollSearch(1);
+
+  initScrollListener() {
+    this.scrolldown$ = this.onScrollDown$.pipe(
+      takeUntil(this.destroy$),
+      filter(() => this.uiService.UIStatus === UIFuncType.searching),
+    );
+    let subscriber$: Subscription;
+    subscriber$ = this.scrolldown$.subscribe(
+      () => {
+        this.dataservice.scrollSearch(1);
+      }
+    );
   }
 
   onScrollUp() {
-    console.log("scrolled up!!");
+    // Todo something.
   }
 }

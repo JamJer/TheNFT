@@ -2,7 +2,7 @@
     <div class="home-header-item">
         <app-header></app-header>
     </div>
-    <div class="home-menu-item">
+    <div class="home-menu-item" *ngIf="(UIType$ | async) === UITypes.searching">
         <app-menu></app-menu>
     </div>
     <div 
@@ -12,17 +12,13 @@
         [infiniteScrollUpDistance]="scrollUpDistance"
         [infiniteScrollThrottle]="scrollThrottle"
         [immediateCheck]="true"
-        (scrolled)="onScrollDown()"
+        (scrolled)="onScrollDown$.next($event)"
         (scrolledUp)="onScrollUp()"   
     >
-        <ng-container *ngIf="(NFTSearchCards$ | async)?.length">
-            <div class="NFT-search-container">
-                <ng-container *ngFor="let NFTSearchCard of (NFTSearchCards$ | async)">
-                    <app-nftcard [cardObj]="NFTSearchCard"></app-nftcard>
-                </ng-container>
-            </div>
+        <ng-container [ngSwitch]="(UIType$ | async)">
+            <app-searching *ngSwitchCase="UITypes.searching"></app-searching>
+            <app-nftdtail *ngSwitchCase="UITypes.NFTDetail"></app-nftdtail>
         </ng-container>
-        <app-loading *ngIf="(isNFTSearching$ | async) === true"></app-loading>
     </div>
     <div class="home-footer-item">
         <app-footer></app-footer>

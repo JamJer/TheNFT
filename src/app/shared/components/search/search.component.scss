@@ -5,8 +5,10 @@
     justify-self: center;
     align-self: center;
     width: 100%;
-    transition: all 0.4s;
+    transition: all 0.3s;
+}
 
+.search-on-header {
     &:hover {
         transform: scale(1.1);
     }
@@ -21,6 +23,7 @@
         width: 10rem;
         &:hover {
             @include main-bg-gra-color;
+            cursor: text;
         }
     }
     .search-icon {
@@ -28,5 +31,34 @@
         margin-left: 15px;
         margin-top: 8px;
         color: $defaultborderColor;
+    }
+
+    .scrolled-icon {
+        color: whitesmoke;
+    }
+    
+    .scrolled-input {
+        border: 1px solid whitesmoke !important;
+        color: whitesmoke;
+    }
+}
+
+.search-on-menu {
+    .search-input[type=text] {
+        @include main-font-family;
+        background: url('../../../../assets/image/commons/Search.png') no-repeat left;
+        background-size: 13px;
+        border: none;
+        padding: 0 20px;
+        margin: 5px 0;
+        color: rgb(180, 180, 180);
+        width: 100%;
+
+        &:focus{
+            outline: none;
+        }
+    }
+    .search-icon {
+        display: none;
     }
 }

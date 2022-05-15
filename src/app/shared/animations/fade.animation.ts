@@ -30,6 +30,19 @@ export const Fade = trigger('fade', [
   ),
 ]);
 
+export const FadeEnterOnly = trigger('fadeEnterOnly', [
+  transition(
+    ':enter',
+    animation([
+      style({ opacity: 0 }),
+      animate(
+        '0.5s cubic-bezier(0.59, 0.32, 0.38, 1.13)',
+        style({ opacity: 1 })
+      ),
+    ])
+  ),
+]);
+
 export const FadeFromTop = trigger('fadeFromTop', [
   transition('void => *', [
     style({ opacity:0,transform: 'translateY(-10%)' }),

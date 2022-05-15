@@ -14,10 +14,9 @@
     justify-content: center;
     align-items: center;
     gap: 4px;
-    background-color: $defaultMainContentColor;
-    border-radius: 5px;
+    background-color: $primaryColor;
     position: absolute;
-    
+
     .loading-item {
         height: calc($size * .4);
         width: calc($size / 13);

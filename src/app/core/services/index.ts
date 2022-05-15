@@ -1,3 +1,3 @@
-export * from './data.service';
-export * from './ui.service';
-export * from './tools.service';
+export * from './data';
+export * from './UI';
+export * from './commons';

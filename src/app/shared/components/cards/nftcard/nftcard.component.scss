@@ -1,66 +1,154 @@
-@import '../../../../core/sass/styles.scss';
+@import 'styles.scss';
 
 .NFTCard-container {
-    $borderRadius: 10px;
+    $cwidth: 17rem;
+    $cheight: 22rem;
     display: block;
     border: none;
-    border-radius: $borderRadius;
-    background-color: $defaultbackgroundColor;
-    width: 17rem;
-    height: 22rem;
-    padding: 0.5rem;
+    @include NFTTopBarderRadiusFull;
+    background-color: $secondaryColor;
+    width: $cwidth;
+    height: $cheight;
     cursor: pointer;
     transition: all .1s ease-out;
     @include box-shadow-default;
+    overflow: hidden;
     
     &:hover {
-        transform: scale(1.05);
+        transform: scale(1.02);
+    }
+
+    &:active {
+        transform: scale(0.98);
     }
 
     .NFT-image-container {
         border: none;
-        border-radius: $borderRadius;
-        background-color: darkgray;
+        @include NFTTopBarderRadiusTopOnly;
+        background-color: white;
         width: 100%;
-        height: 16rem;
+        height: calc($cheight - 6rem);
         position: relative;
 
         img, video{
-            border-radius: $borderRadius;
+            @include NFTTopBarderRadiusTopOnly;
         }
     }
 
     .NFT-content {
+        position: relative;
+
         .NFT-title {
-            text-align: center;
+            width: 100%;
+            display: inline-block;
             @include main-font-family;
-            color: whitesmoke;
-            font-style: oblique;
-            text-overflow: ellipsis;
-            white-space:nowrap;
+            color: rgb(53, 56, 64);
+            font-weight: bold;
+            white-space: nowrap;
             overflow: hidden;
-            margin: 5px;
-            @include main-bg-gra-color;
+            margin-top: 5px;
+            padding: 0px 10px;
+            text-align: center;
+            text-overflow: ellipsis;
+        }
+
+        .NFT-title-scroll {
+            &:hover,
+            &:focus {
+                text-overflow: clip;
+
+                span {
+                display: inline-block;
+                animation-name: scroll-text-X;
+                animation-duration: 7s;
+                animation-timing-function: linear;
+                animation-delay: 0s;
+                animation-iteration-count: infinite;
+                animation-direction: normal;
+                }
+            }
+        
+            @keyframes scroll-text-X {
+                0% {
+                    transform: translateX(0%);
+                }
+                90% {
+                    transform: translateX(-100%);
+                }
+                95% {
+                    transform: translateX(0%);
+                }
+                100% {
+                    transform: translateX(0%);
+                }
+            }
         }
 
         .seperate-line {
             border: 0;
             height: 1px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0));
-            margin: 6px 10px 7px 10px;
+            margin: 0px 10px 7px 10px;
+            background-color: darkgray;
         }
 
         .NFT-description {
-            p {
-                color: whitesmoke;
-                @include main-font-family;
+            color: rgb(112, 122, 131);
+            @include main-font-family;
+            
+            font-size: 5px;
+            padding: 0px 10px;
+
+            span {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 3;
                 overflow: hidden;
-                font-size: 5px;
-                margin: 5px 10px;
+                word-break: keep-all;
             }
         }
+
+        .NFT-description-scroll {
+            &:hover,
+            &:focus {
+                text-overflow: clip;
+                overflow: hidden;
+                span {
+                    display: inline-block;
+                    animation-name: scroll-text-Y;
+                    animation-duration: 7s;
+                    animation-timing-function: linear;
+                    animation-delay: 0s;
+                    animation-iteration-count: infinite;
+                    animation-direction: normal;
+                }
+            }
+        
+            @keyframes scroll-text-Y {
+                0% {
+                    transform: translateY(0%);
+                }
+                90% {
+                    transform: translateY(-100%);
+                }
+                95% {
+                    transform: translateY(0%);
+                }
+                100% {
+                    transform: translateY(0%);
+                }
+            }
+        }
+
+        .overflow-hidden {
+            height: 8px;
+            width: 100%;
+            background-color: $secondaryColor;
+            position: absolute;
+            top: 90px;
+        }
     }
+}
+
+:host app-bar-loading ::ng-deep .image-loading{
+    @include NFTTopBarderRadiusTopOnly;
 }

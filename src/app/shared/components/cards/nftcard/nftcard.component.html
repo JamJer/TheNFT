@@ -1,4 +1,4 @@
-<div class="NFTCard-container" @scaleFade>
+<div class="NFTCard-container" @scaleFade (click)="onClickCard()">
     <div class="NFT-image-container">
         <app-bar-loading [isLoading]="isLoading"></app-bar-loading>
         <img
@@ -24,12 +24,15 @@
         </ng-template>
     </div>
     <div class="NFT-content">
-        <h5 class="NFT-title">{{ cardObj?.name }}</h5>
-        <hr class="seperate-line">
-        <div class="NFT-description">
-            <p>
-                {{ cardObj?.description }}
-            </p>
+        <div class="NFT-title" #NFTTitle [ngClass]="{'NFT-title-scroll': titleScroll}">
+            <span>{{ cardObj?.name == '' ? 'NAME NOT FOUND' : cardObj?.name }}</span>
         </div>
+        <hr class="seperate-line">
+        <div class="NFT-description" [ngClass]="{'NFT-description-scroll': descriptionScroll}">
+            <span #NFTDescription>
+                {{ cardObj?.description }}
+            </span>
+        </div>
+        <div class="overflow-hidden"></div>
     </div>
 </div>

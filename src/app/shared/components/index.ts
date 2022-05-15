@@ -4,6 +4,7 @@ import { FooterComponent } from "./footer/footer.component";
 import { SearchComponent } from "./search/search.component";
 import { CARD_COMPONENTS } from "./cards";
 import { COMMON_CONPONENTS } from "./commons";
+import { MAIN_CONPONENTS } from "./main";
 
 export const COMPONENTS = [
     HeaderComponent,
@@ -11,7 +12,8 @@ export const COMPONENTS = [
     FooterComponent,
     SearchComponent,
     ...CARD_COMPONENTS,
-    ...COMMON_CONPONENTS
+    ...COMMON_CONPONENTS,
+    ...MAIN_CONPONENTS
 ];
 
 export * from './header/header.component';

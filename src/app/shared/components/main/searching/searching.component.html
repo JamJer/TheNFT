@@ -1,0 +1,17 @@
+<ng-container *ngIf="(NFTSearchCards$ | async)?.length; else noresult">
+    <div class="NFT-search-container">
+        <ng-container *ngFor="let NFTSearchCard of (NFTSearchCards$ | async)">
+            <app-nftcard [cardObj]="NFTSearchCard"></app-nftcard>
+        </ng-container>
+    </div>
+</ng-container>
+<app-loading *ngIf="(isNFTSearching$ | async) === true"></app-loading>
+<ng-template #noresult>
+    <div class="noresultinfo" *ngIf="(isNFTSearching$ | async) === false" @fadeEnterOnly>
+        <fa-icon 
+            class="noresultinfo-icon" 
+            [icon]="icons.frown" 
+        ></fa-icon>
+        <span class="noresultinfo-title">No search results!</span>
+    </div>
+</ng-template>

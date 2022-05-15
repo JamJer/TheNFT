@@ -1,1 +1,37 @@
-<p>menu works!</p>
+<div class="menu-container" @fadeFromLeft>
+    <div class="search-filter-wrapper">
+        <div class="search-filter-title">
+            <span>Filter</span>
+        </div>
+        <div class="search-input-container">
+            <div class="search-input-title">
+                <span>Search</span>
+            </div>
+            <div class="search-input-app">
+                <app-search [isOnHeader]="false"></app-search>
+            </div>
+        </div>
+        <form [formGroup]="filterForm" class="search-filter-form" novalidate>
+            <div class="filter-chain-title">
+                <span>Chain</span>
+            </div>
+            <div class="filter-chain-radios">
+                <ng-container *ngFor="let chainType of chainTypes">
+                    <div>
+                        <label>
+                            <input 
+                                type="radio" 
+                                formControlName="selectedChainType"
+                                name="selectedChainType"
+                                [value]="chainType"
+                            >
+                            <span class="round button">
+                                {{ chainType | titlecase }}
+                            </span>
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
+        </form>
+    </div>
+</div>

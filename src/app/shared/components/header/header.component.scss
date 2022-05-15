@@ -79,6 +79,11 @@
         flex-flow: row wrap;
         padding: 1rem 1rem;
         column-gap: 2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        transition: all .2s ease-in-out;
 
         .navbar-title {
             
@@ -123,6 +128,12 @@
         }
     }
 
+    .header-navbar-scroll {
+        background-color: $primaryColor;
+        z-index: 10;
+        @include box-shadow-default;
+    }
+
     .header-promo {
         display: flex;
         width: 100%;
@@ -131,6 +142,8 @@
         justify-content: center;
         background-color: transparent;
         @include main-font-family;
+        position: relative;
+        margin-top: 3rem;
 
         .promo-left {
             flex-flow: 1;

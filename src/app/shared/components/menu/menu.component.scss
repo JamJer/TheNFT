@@ -1,0 +1,83 @@
+@import 'styles.scss';
+
+$rowHeight: 2rem;
+
+.menu-container {
+    height: 100vh;
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: $secondaryColor;
+    @include box-shadow-default;
+    @include main-font-family;
+    padding: 12.5rem 20px;
+    position: sticky;
+    top: 0;
+    color: gray;
+
+    .search-input-container {
+        .search-input-app {
+            width: 100%;
+        }
+    }
+
+    .search-filter-wrapper {
+        display: flex;
+        width: 100%;
+        flex-flow: column nowrap;
+        transition: all .3s ease-in-out;
+
+        .search-filter-title {
+
+            span {
+                display: block;
+                font-size: 1.5rem;
+                color: gray;
+                margin-bottom: 5px;
+            };
+        }
+
+        .search-filter-form {
+            display: flex;
+            flex-flow: column nowrap;
+            color: gray;
+
+            .filter-chain-title {
+
+            }
+
+            .filter-chain-radios {
+                display: flex;
+                flex-flow: row nowrap;
+
+                input[type="radio"] {
+                    display: none;
+                    &:checked + .button {
+                        background: #5e7380;
+                        color: #fff;
+                        cursor: default;
+                    }
+                }
+
+                .button {
+                    display: inline-block;
+                    margin: 0 5px 10px 0;
+                    padding: 3px 5px;
+                    background: #f7f7f7;
+                    color: gray;
+                    cursor: pointer;
+                    transition:  all .1s ease-in-out;
+                    
+                    &:hover {
+                        background: #bbb;
+                        color: #fff;
+                    }
+
+                    .round {
+                        border-radius: 5px;
+                    }
+                }
+            }
+        }
+        
+    }
+}

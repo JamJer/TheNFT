@@ -1,0 +1,26 @@
+@import 'styles.scss';
+
+.NFT-search-container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
+    justify-content: center;
+}
+.noresultinfo {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    column-gap: 10px;
+    font-size: 2rem;
+    color: gray;         
+    margin-top: 3.5rem;
+
+    .noresultinfo-icon {
+        display: block;
+    }
+
+    .noresultinfo-title {
+        display: block;
+        @include  main-font-family;
+    }
+}

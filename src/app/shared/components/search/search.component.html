@@ -1,4 +1,13 @@
-<div class="search-wrapper">
-    <fa-icon class="search-icon" [icon]="icons.handPointRight"></fa-icon>
-    <input class="search-input" type="text" (keyup)="onSearchNFT$.next($event)" placeholder="Search NFT">
+<div class="search-wrapper" [ngClass]="isOnHeader ? 'search-on-header' : 'search-on-menu'">
+    <fa-icon 
+        class="search-icon" 
+        [icon]="icons.handPointRight" 
+    ></fa-icon>
+    <input 
+        class="search-input" 
+        type="text" 
+        (keyup)="onSearchNFT$.next($event)" 
+        placeholder="Search NFT..."
+        [value]="queryString" 
+    >
 </div>
