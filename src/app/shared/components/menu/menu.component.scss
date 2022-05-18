@@ -41,41 +41,50 @@ $rowHeight: 2rem;
             flex-flow: column nowrap;
             color: gray;
 
-            .filter-chain-title {
+            input[type="radio"] {
+                display: none;
+                &:checked + .button {
+                    background: #5e7380;
+                    color: #fff;
+                    cursor: default;
+                }
+            }
 
+            .button {
+                display: inline-block;
+                margin: 0 5px 10px 0;
+                padding: 3px 5px;
+                background: #f7f7f7;
+                color: gray;
+                cursor: pointer;
+                transition:  all .1s ease-in-out;
+                
+                &:hover {
+                    background: #bbb;
+                    color: #fff;
+                }
+
+                .round {
+                    border-radius: 5px;
+                }
+            }
+            
+            .filter-chain-title {
+                margin-top: 5px;
             }
 
             .filter-chain-radios {
                 display: flex;
                 flex-flow: row nowrap;
+            }
 
-                input[type="radio"] {
-                    display: none;
-                    &:checked + .button {
-                        background: #5e7380;
-                        color: #fff;
-                        cursor: default;
-                    }
-                }
+            .filter-orderBy-title {
 
-                .button {
-                    display: inline-block;
-                    margin: 0 5px 10px 0;
-                    padding: 3px 5px;
-                    background: #f7f7f7;
-                    color: gray;
-                    cursor: pointer;
-                    transition:  all .1s ease-in-out;
-                    
-                    &:hover {
-                        background: #bbb;
-                        color: #fff;
-                    }
+            }
 
-                    .round {
-                        border-radius: 5px;
-                    }
-                }
+            .filter-orderBy-radios {
+                display: flex;
+                flex-flow: row nowrap;
             }
         }
         

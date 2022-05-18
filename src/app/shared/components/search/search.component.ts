@@ -77,6 +77,11 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
     
     this.subscription = merge(this.validSearch$, this.emptySearch$).subscribe(
       response => {
+        window.scroll({ 
+          top: 0, 
+          left: 0, 
+          behavior: 'smooth' 
+        });
         if(!Object.entries(response).length) {
           this.uiservice.SearchingStatus = false;
           this.uiservice.clearSearchNFTs();

@@ -32,6 +32,26 @@
                     </div>
                 </ng-container>
             </div>
+            <div class="filter-orderBy-title">
+                <span>Order By</span>
+            </div>
+            <div class="filter-orderBy-radios">
+                <ng-container *ngFor="let orderType of orderTypes">
+                    <div>
+                        <label>
+                            <input 
+                                type="radio" 
+                                formControlName="selectedOrderBy"
+                                name="selectedOrderBy"
+                                [value]="orderType"
+                            >
+                            <span class="round button">
+                                {{ orderType | titlecase }}
+                            </span>
+                        </label>
+                    </div>
+                </ng-container>
+            </div>
         </form>
     </div>
 </div>

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators  } from '@angular/forms';
 import { FadeFromLeft, Fade } from '../../animations';
-import { BaseComponent, chainType, NFTSearchQuery, order_type, UIService } from 'src/app/core';
-import { filter, map, Observable, takeUntil, tap } from 'rxjs';
+import { BaseComponent, chainType, DataService, order_type, UIService } from 'src/app/core';
+import { Observable, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-menu',
@@ -14,16 +14,12 @@ import { filter, map, Observable, takeUntil, tap } from 'rxjs';
   ]
 })
 export class MenuComponent extends BaseComponent implements OnInit {
-  filterForm!: FormGroup;
-  
-  currentChain: any;
-  currentOrderBy!: order_type;
-  
-  chainTypes: Array<any> = Object.keys(chainType);
-  currentQuery$!: Observable<NFTSearchQuery>;
+  filterForm!: FormGroup;  
+  chainTypes: Array<string> = Object.keys(chainType);
+  orderTypes: Array<string> = Object.keys(order_type); 
   currentFilterForm$!: Observable<any>;
 
-  constructor(private uiservice: UIService, private formBuilder: FormBuilder) {
+  constructor(private uiservice: UIService, private dataservice: DataService, private formBuilder: FormBuilder) {
     super();
   }
 
@@ -31,10 +27,6 @@ export class MenuComponent extends BaseComponent implements OnInit {
     this.createFilterForm();
     this.bindCurrentQuery();
     this.bindFilterForm();
-  }
-
-  ngOnChanges() {
-
   }
 
   createFilterForm() {
@@ -45,19 +37,11 @@ export class MenuComponent extends BaseComponent implements OnInit {
   }
 
   bindCurrentQuery() {
-    this.currentQuery$ = this.uiservice.selectSearchQuery().pipe(
-      takeUntil(this.destroy$),
-      map(data => data as NFTSearchQuery),
-      filter((data) => 
-        Object.keys(data).length > 0
-      ),
-      tap(data => {
-        this.filterForm.patchValue({
-          selectedChainType: ('chain' in data) ? data.chain : chainType.ethereum
-        });
-      })
-    );
-    this.currentQuery$.subscribe();
+    const currentQuery = this.uiservice.SearchQuery;
+    this.filterForm.patchValue({
+      selectedChainType: currentQuery.chain ?? chainType.ethereum,
+      selectedOrderBy: currentQuery.order_by ?? order_type.relevance
+    });
   }
 
   bindFilterForm() {
@@ -65,8 +49,13 @@ export class MenuComponent extends BaseComponent implements OnInit {
       takeUntil(this.destroy$)
     );
     this.currentFilterForm$.subscribe(() => {
-      let controls = this.filterForm.controls;
-      let newChainType = controls['selectedChainType'].value;
+      const controls = this.filterForm.controls;
+      const newAttribute = { 
+        chain: controls['selectedChainType'].value,
+        order_by: controls['selectedOrderBy'].value
+      };
+      this.uiservice.updateSearchQuery(newAttribute);
+      this.dataservice.reSearchNFT();
     });
   }
 }

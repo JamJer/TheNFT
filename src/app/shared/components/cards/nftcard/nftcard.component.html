@@ -1,4 +1,8 @@
 <div class="NFTCard-container" @scaleFade (click)="onClickCard()">
+    <div class="NFT-coin-logo" @fade>
+        <img *ngIf="cardObj?.chain === chainTypes.ethereum" src="../../../../../assets/image/cryptocurrent/ethereum.png" alt="{{cardObj?.chain}}">
+        <img *ngIf="cardObj?.chain === chainTypes.polygon" src="../../../../../assets/image/cryptocurrent/polygon.png" alt="{{cardObj?.chain}}">
+    </div>
     <div class="NFT-image-container">
         <app-bar-loading [isLoading]="isLoading"></app-bar-loading>
         <img

@@ -24,9 +24,20 @@
     grid-area: footer; 
     background-color: $primaryColor;
 }
-.home-container {
+
+@mixin grid-template {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+}
+.home-container {
+    @include grid-template;
+    grid-template-areas: 
+        'header header header header header header'
+        'main   main   main   main   main   main'
+        'footer footer footer footer footer footer';
+}
+.home-container-search {
+    @include grid-template;
     grid-template-areas: 
         'header header header header header header'
         'menu   main   main   main   main   main'

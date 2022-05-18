@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent, UIFuncType, UIService } from 'src/app/core';
-import { FadeFromLeft, FadeFromBottom, FadeFromTop } from '../../animations';
+import { FadeFromLeft, FadeFromBottom, FadeFromTop, Fade } from '../../animations';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -10,7 +10,8 @@ import { Observable } from 'rxjs';
   animations: [
     FadeFromLeft,
     FadeFromBottom,
-    FadeFromTop
+    FadeFromTop,
+    Fade
   ]
 })
 export class HeaderComponent extends BaseComponent implements OnInit {  

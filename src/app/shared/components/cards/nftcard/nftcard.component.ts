@@ -1,6 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { DataService, NFTCard, NFTDetailQuery, ToolsService, UIFuncType, UIService } from 'src/app/core';
+import { chainType, DataService, NFTCard, NFTDetailQuery, ToolsService, UIFuncType, UIService } from 'src/app/core';
 import { ScaleFade, ScaleFadeStagger, Fade } from 'src/app/shared/animations';
 
 @Component({
@@ -25,6 +24,8 @@ export class NFTCardComponent implements OnInit {
   titleScroll: boolean = false;
   descriptionScroll: boolean = false;
 
+  chainTypes = chainType;
+  
   constructor(private dataService: DataService, private uiservice: UIService) { }
 
   ngOnInit(): void {

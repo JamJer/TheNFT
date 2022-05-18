@@ -19,8 +19,8 @@ export class HomeComponent extends BaseComponent implements OnInit {
   onScrollDown$ = new Subject<IInfiniteScrollEvent>();
   scrolldown$?: Observable<any>;
 
-  scrollDownDistance: number = .5;
-  scrollUpDistance: number = .5;
+  scrollDownDistance: number = .1;
+  scrollUpDistance: number = .1;
   scrollThrottle: number = 300;
 
 

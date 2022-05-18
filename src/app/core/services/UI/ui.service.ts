@@ -12,18 +12,18 @@ export class UIService {
 
   constructor() {
     this._stateSource$ = new BehaviorSubject<UIState>({
+      searchQuery: {} as NFTSearchQuery,
+      currentNFT: {} as NFTDetail,
       searchNFTs: [],
       isSearching: false,
-      searchQuery: {} as NFTSearchQuery,
       UIStatus: UIFuncType.searching,
-      currentNFT: {} as NFTDetail,
     });
     this.state$ = this._stateSource$.asObservable()
   }
 
   // -------UI state-------
   private _getCurrentState(): UIState {
-    return this._stateSource$.value as UIState;
+    return {...this._stateSource$.value as UIState};
   }
 
   // -------NFT Search-------
@@ -79,15 +79,13 @@ export class UIService {
   }
 
   get SearchQuery(): NFTSearchQuery {
-    return this._getCurrentState().searchQuery;
+    return {...this._getCurrentState().searchQuery};
   }
 
-  // updateSearchQuery(queryKey: keyof NFTSearchQuery, queryValue: any) {
-  //   const currentQuery = this._getCurrentState().searchQuery as NFTSearchQuery;
-  //   if(Object.keys(currentQuery).length) {
-  //     currentQuery[queryKey] = queryValue;
-  //   }
-  // }
+  updateSearchQuery(updates: Partial<NFTSearchQuery>): void {
+    if(!Object.entries(this.SearchQuery).length) return;
+    this.SearchQuery = ToolsService.updatePartialObject<NFTSearchQuery>(this.SearchQuery, updates);
+  }
 
   selectSearchQuery(): Observable<NFTSearchQuery>{
     return this.state$.pipe(
@@ -103,10 +101,12 @@ export class UIService {
   }
 
   flipPage(pageOffset: number): boolean {
-    const currentQuery = this.SearchQuery;
-    if(!Object.entries(currentQuery).length) return false;
-    currentQuery.page_number += pageOffset;
-    this.SearchQuery = currentQuery;
+    const {page_number, ...rest} = this.SearchQuery;
+    if(page_number <= 0) return false;
+    const pageNumberObject = {
+      page_number: page_number + pageOffset
+    };
+    this.updateSearchQuery(pageNumberObject);
     return true;
   }
   // -------NFT Search Query-------

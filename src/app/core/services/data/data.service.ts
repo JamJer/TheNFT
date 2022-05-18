@@ -17,7 +17,7 @@ export class DataService {
   }
 
   reSearchNFT() {
-    const currentQuery = this.uiservice.SearchQuery as NFTSearchQuery;
+    const currentQuery = this.uiservice.SearchQuery;
     if(!Object.keys(currentQuery).length || currentQuery.text === '') return;
     this.uiservice.clearSearchNFTs();
     this.uiservice.SearchingStatus = false;
@@ -31,11 +31,10 @@ export class DataService {
   }
 
   scrollSearch(pageOffset: number = 1) {
-    const currentQuery = this.uiservice.SearchQuery as NFTSearchQuery;
-    if(!Object.keys(currentQuery).length) return;
+    if(!Object.keys(this.uiservice.SearchQuery).length) return;
     if(this.uiservice.flipPage(pageOffset)) {
       let subscriber$: Subscription;
-      subscriber$ = this.searchNFT(currentQuery).subscribe(
+      subscriber$ = this.searchNFT(this.uiservice.SearchQuery).subscribe(
         response => {
           this.uiservice.addToSearchNFTs(response);
           subscriber$.unsubscribe();
@@ -46,13 +45,8 @@ export class DataService {
 
   searchNFT(query: NFTSearchQuery): Observable<NFTCard[]> {
     const path = DataService.APIPath + APIFuncType.searchByText;
-    const headers = new HttpHeaders({
-      'Authorization': env.APIKey,
-      'Content-Type': 'application/json'
-    });
     const params = new HttpParams({ fromObject: ToolsService.convertToObject(query) });
     const config = {
-      headers,
       params
     };
     this.uiservice.SearchingStatus = true;
@@ -65,15 +59,10 @@ export class DataService {
     const path = DataService.APIPath + 
                  APIFuncType.NFTDetail + '/' + 
                  query.contract_address + '/' +
-                 query.token_id
-    const headers = new HttpHeaders({
-      'Authorization': env.APIKey,
-      'Content-Type': 'application/json'
-    });
+                 query.token_id;
     const {chain, ...rest} = query;
     const params = new HttpParams({ fromObject: {'chain': chain} });
     const config = {
-      headers,
       params
     };
     return this._requestNFTDetail(path, config);

@@ -25,4 +25,12 @@ export class ToolsService {
     });
     return result;
   }
+
+  static updatePartialObject<T>(obj: T, updates: Partial<T>): T {
+    return {...obj, ...updates};
+  }
+
+  static convertVariableNameToString(obj: any): string {
+    return Object.keys(obj)[0];
+  }
 }
