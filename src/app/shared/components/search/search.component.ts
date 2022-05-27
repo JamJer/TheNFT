@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { 
   debounceTime, 
   distinctUntilChanged, 
@@ -40,7 +41,12 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
 
   queryString: string = '';
 
-  constructor(private dataservice: DataService, private uiservice: UIService) {
+  constructor(
+    private dataservice: DataService, 
+    private uiservice: UIService, 
+    private router: Router, 
+    private activatedRoute: ActivatedRoute
+  ) {
     super();
    }
 
@@ -64,7 +70,7 @@ export class SearchComponent extends BaseComponent implements OnInit, OnDestroy 
       tap((text) => {
         querytext.text = text;
         this.uiservice.clearSearchNFTs();
-        this.uiservice.UIStatus = UIFuncType.searching;
+        this.router.navigate([UIFuncType.searching], {relativeTo: this.activatedRoute});
       }),
       switchMap(data => this.dataservice.searchNFT(querytext))
     );

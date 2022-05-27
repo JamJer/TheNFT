@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../../../environments/environment.prod';
 import { catchError, map, Observable, of, Subscription, tap } from 'rxjs';
-import { NFTCard, NFTSearchQuery, APIFuncType, NFTSearchResponse, NFTDetail, NFTDetailResponse, NFTDetailQuery } from '../../models';
+import { NFTCard, NFTSearchQuery, APIFuncType, NFTSearchResponse, NFTDetail, NFTDetailResponse, NFTDetailQuery, NFTransactionsRecords, NFTransactionResponse, NFTransactionQuery } from '../../models';
 import { UIService } from '../UI/ui.service'; 
 import { ToolsService } from '../commons';
 
@@ -60,7 +60,7 @@ export class DataService {
                  APIFuncType.NFTDetail + '/' + 
                  query.contract_address + '/' +
                  query.token_id;
-    const {chain, ...rest} = query;
+    const {chain} = query;
     const params = new HttpParams({ fromObject: {'chain': chain} });
     const config = {
       params
@@ -68,6 +68,26 @@ export class DataService {
     return this._requestNFTDetail(path, config);
   }
   
+  getNFTransactions(query: NFTransactionQuery): Observable<NFTransactionsRecords[]> {
+    const path = DataService.APIPath + 
+                 APIFuncType.NFTransactions + 
+                 query.contract_address + '/' +
+                 query.token_id;
+    const {chain, type, page_size, continuation} = query;
+    const params = new HttpParams({ 
+      fromObject: {
+        'chain': chain, 
+        'type': type, 
+        'page_size': page_size ?? 50, 
+        'continuation': continuation ?? ""
+      } 
+    });
+    const config = {
+      params
+    };
+    return this._requestNFTransactions(path, config);
+  }
+
   private _requestNFTs(path: string, config: any): Observable<NFTCard[]> {
     return this.http.get<Observable<NFTCard[]>>(path, config).pipe(
       map(response => (<NFTSearchResponse><unknown>response).search_results),
@@ -87,12 +107,22 @@ export class DataService {
         const {response, ...rest} = (<NFTDetailResponse><unknown>data);
         return rest as NFTDetail;
       }),
-      tap(data => {
-        console.log(data);
-      }),
       catchError((error) => {
         console.log(error);
         return of({} as NFTDetail);
+      })
+    );
+  }
+
+  private _requestNFTransactions(path: string, config: any): Observable<NFTransactionsRecords[]> {
+    return this.http.get<Observable<NFTransactionsRecords[]>>(path, config).pipe(
+      map(data => {
+        const {transactions} = (<NFTransactionResponse><unknown>data);
+        return transactions as NFTransactionsRecords[];
+      }),
+      catchError((error) => {
+        console.log(error);
+        return of([] as NFTransactionsRecords[]);
       })
     );
   }

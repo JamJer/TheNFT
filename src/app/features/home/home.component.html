@@ -15,10 +15,7 @@
         (scrolled)="onScrollDown$.next($event)"
         (scrolledUp)="onScrollUp()"   
     >
-        <ng-container [ngSwitch]="(UIType$ | async)">
-            <app-searching *ngSwitchCase="UITypes.searching"></app-searching>
-            <app-nftdtail *ngSwitchCase="UITypes.NFTDetail"></app-nftdtail>
-        </ng-container>
+        <router-outlet></router-outlet>
     </div>
     <div class="home-footer-item">
         <app-footer></app-footer>

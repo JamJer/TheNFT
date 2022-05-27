@@ -1,11 +1,8 @@
-import { chainType } from "../Payloads/Chain";
+import { NFTBase } from "../Base";
 
-export interface NFTCard {
+export interface NFTCard extends NFTBase{
     cached_file_url: string;
-    chain: chainType;
-    contract_address: string;
     description: string;
     mint_date: string;
     name: string;
-    token_id: string;
 }

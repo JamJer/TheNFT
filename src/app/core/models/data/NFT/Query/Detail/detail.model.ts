@@ -1,8 +1,5 @@
-import { chainType } from "../../Payloads";
+import { NFTBase } from "../../Base";
 
-export interface NFTDetailQuery{
-    contract_address: string,
-    token_id: string,
-    chain: chainType,
+export interface NFTDetailQuery extends NFTBase{
     refresh_metadata: boolean
 }

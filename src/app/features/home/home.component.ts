@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { IInfiniteScrollEvent } from 'ngx-infinite-scroll';
 import { filter, Observable, Subject, Subscription, takeUntil } from 'rxjs';
 import { 
@@ -24,7 +25,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
   scrollThrottle: number = 300;
 
 
-  constructor(private uiService: UIService, private dataservice: DataService) { 
+  constructor(private uiService: UIService, private dataservice: DataService, private activatedRoute:ActivatedRoute) { 
     super();
   }
 

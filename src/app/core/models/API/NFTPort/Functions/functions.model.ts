@@ -1,4 +1,5 @@
 export enum APIFuncType {
     searchByText = '/search',
-    NFTDetail = '/nfts'
+    NFTDetail = '/nfts',
+    NFTransactions = '/transactions/nfts/'
 }

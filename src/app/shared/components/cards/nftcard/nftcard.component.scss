@@ -5,7 +5,7 @@
     $cheight: 22rem;
     display: block;
     border: none;
-    @include NFTTopBarderRadiusFull;
+    @include BorderRadiusFull;
     background-color: $secondaryColor;
     width: $cwidth;
     height: $cheight;
@@ -32,16 +32,7 @@
     }
 
     .NFT-image-container {
-        border: none;
-        @include NFTTopBarderRadiusTopOnly;
-        background-color: white;
-        width: 100%;
         height: calc($cheight - 6rem);
-        position: relative;
-
-        img, video{
-            @include NFTTopBarderRadiusTopOnly;
-        }
     }
 
     .NFT-content {

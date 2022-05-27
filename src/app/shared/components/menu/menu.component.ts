@@ -56,6 +56,11 @@ export class MenuComponent extends BaseComponent implements OnInit {
       };
       this.uiservice.updateSearchQuery(newAttribute);
       this.dataservice.reSearchNFT();
+      window.scroll({ 
+        top: 0, 
+        left: 0, 
+        behavior: 'smooth' 
+      });
     });
   }
 }

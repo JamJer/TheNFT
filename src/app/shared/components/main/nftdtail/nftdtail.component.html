@@ -1,1 +1,78 @@
-<p>nftdtail works!</p>
+<div class="NFT-Detail-container">
+    <div class="Detail-left">
+        <div class="Detail-media" @scaleFade>
+            <div class="media-container">
+                <app-media-container [mediaObject]="mediaObject"></app-media-container>
+            </div>
+            <div class="info-bar">
+                <div class="NFT-coin-logo">
+                    <img *ngIf="NFTDetailObject?.nft?.chain === chainTypes.ethereum" src="../../../../../assets/image/cryptocurrent/ethereum-middle.png">
+                    <img *ngIf="NFTDetailObject?.nft?.chain === chainTypes.polygon" src="../../../../../assets/image/cryptocurrent/polygon.png">
+                </div>
+                <fa-icon 
+                    class="like-icon" 
+                    [icon]="icons.heartEmpty" 
+                ></fa-icon>
+            </div>
+        </div>
+        <div class="Detail-contract">
+            <div class="contract-title" @fadeFromTop>
+                <span>Contract</span>
+            </div>
+            <hr class="contract-hr">
+            <div class="contract-content">
+                <div class="contract-address" @fadeFromTop>
+                    <span>
+                        Contract address: 
+                    </span>
+                    <a href="https://etherscan.io/address/{{contractObject.contract_address}}" target="_blank">{{ trimAddress(contractObject.contract_address) }}</a>
+                </div>
+                <div class="contract-name" @fadeFromTop>
+                    <span>
+                        Contract name:
+                    </span>
+                    <span>
+                        {{contractObject.contract_name}}
+                    </span>
+                </div>
+                <div class="contract-symbol" @fadeFromTop>
+                    <span>
+                        Contract symbol:
+                    </span>
+                    <span>
+                        {{contractObject.contract_symbol}}
+                    </span>
+                </div>
+                <div class="contract-type" @fadeFromTop>
+                    <span>
+                        Contract type:
+                    </span>
+                    <span>
+                        {{contractObject.contract_type}}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="Detail-right">
+        <div class="Detail-content">
+            <div class="NFT-name">
+                <span @fadeFromBottom class="NFT-title">{{ detailContent.NFTName }}</span>
+            </div>
+            <div class="NFT-owner" @fadeFromBottom>
+                <span>Owned by:</span>&nbsp;
+                <a href="{{ 'https://etherscan.io/address/' + detailContent.NFTOwned }}" target="_blank" [ngClass]="{'inactiveLink' : detailContent.NFTOwned === NO_DATA_STRING}">{{ trimAddress(detailContent.NFTOwned) }}</a>
+            </div>
+            <hr class="description-hr-top">
+            <div class="NFT-description" @fadeFromBottom>
+                <p>{{ detailContent.NFTDescription }}</p>
+            </div>
+            <hr class="description-hr-bottom">
+        </div>
+        <div class="NFT-transaction">
+            <div>
+                
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { NFTCard, NFTDetail, NFTSearchQuery, UIFuncType} from '../../models';
 import { ToolsService } from '../commons/tools.service';
+import { environment as env } from 'src/environments/environment.prod';
+import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +13,15 @@ export class UIService {
   private _stateSource$!: BehaviorSubject<UIState>;
   private state$: Observable<UIState>;
 
-  constructor() {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     this._stateSource$ = new BehaviorSubject<UIState>({
       searchQuery: {} as NFTSearchQuery,
-      currentNFT: {} as NFTDetail,
+      currentNFT: env.tmpNFT as unknown as NFTDetail,
       searchNFTs: [],
       isSearching: false,
-      UIStatus: UIFuncType.searching,
+      UIStatus: UIFuncType.default,
     });
-    this.state$ = this._stateSource$.asObservable()
+    this.state$ = this._stateSource$.asObservable();
   }
 
   // -------UI state-------
@@ -101,7 +104,7 @@ export class UIService {
   }
 
   flipPage(pageOffset: number): boolean {
-    const {page_number, ...rest} = this.SearchQuery;
+    const {page_number} = this.SearchQuery;
     if(page_number <= 0) return false;
     const pageNumberObject = {
       page_number: page_number + pageOffset
@@ -122,6 +125,11 @@ export class UIService {
   get currentNFTDetail(): NFTDetail {
     return this._getCurrentState().currentNFT;
   }
+
+  updateCurrentNFTDetail(updates: Partial<NFTDetail>): void {
+    if(!Object.entries(this.currentNFTDetail).length) return;
+    this.currentNFTDetail = ToolsService.updatePartialObject<NFTDetail>(this.currentNFTDetail, updates);
+  }
   // -------NFT Detail-------
   
   // -------UI Status-------
@@ -129,7 +137,7 @@ export class UIService {
     const currentUIStatus = this._getCurrentState().UIStatus;
     const statusString = `[Current: ${currentUIStatus}, New: ${newStatus}]`;
     const errorStrings = [`Unknown current UI type.`, `Unknown new UI type.`];
-
+    console.log(statusString);
     switch(currentUIStatus) {
       case UIFuncType.default:
         switch(newStatus) {
@@ -155,8 +163,6 @@ export class UIService {
             break;
           case UIFuncType.NFTDetail: // searching => NFTDetail
             this.SearchingStatus = false;
-            this.clearSearchQuery();
-            this.clearSearchNFTs();
             break;
           default:
             console.log(`${errorStrings[1]} ${statusString}`);
@@ -180,7 +186,7 @@ export class UIService {
         console.log(`${errorStrings[0]} ${statusString}`);
         break;
     }
-    
+
     this._stateSource$.next({
       ...this._getCurrentState(),
       UIStatus: newStatus

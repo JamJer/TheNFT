@@ -146,14 +146,15 @@
         margin-top: 3rem;
 
         .promo-left {
-            flex-flow: 1;
-            flex-basis: 10rem;
+            max-width: 30rem;
             padding-top: 2rem;
+
             .first-title{
                 
                 span {
                     color: white;
                     font-size: 3.5rem;
+                    line-height: 1.15;
                 }
             }
 
@@ -165,8 +166,7 @@
         }
 
         .promo-right {
-            flex-shrink: 0;
-            flex-basis: 10rem;
+            max-width: 30rem;
             color: #FFFFFF;
             background-image: url('../../../../assets/image/promo/SpinEarth2.gif');
             background-repeat: no-repeat;

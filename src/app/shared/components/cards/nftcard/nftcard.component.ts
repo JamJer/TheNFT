@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { chainType, DataService, NFTCard, NFTDetailQuery, ToolsService, UIFuncType, UIService } from 'src/app/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { chainType, DataService, Media, NFTCard, NFTDetailQuery, ToolsService, UIFuncType, UIService } from 'src/app/core';
 import { ScaleFade, ScaleFadeStagger, Fade } from 'src/app/shared/animations';
 
 @Component({
@@ -23,14 +24,22 @@ export class NFTCardComponent implements OnInit {
   isLoading: boolean = true;
   titleScroll: boolean = false;
   descriptionScroll: boolean = false;
+  mediaObject!: Media;
 
   chainTypes = chainType;
   
-  constructor(private dataService: DataService, private uiservice: UIService) { }
+  constructor(private dataService: DataService, private uiservice: UIService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     const imgUrl = this.cardObj.cached_file_url;
+    const {cached_file_url, name} = this.cardObj;
+    
     this.isImage = ToolsService.checkIfImgURL(imgUrl);
+    this.mediaObject = {
+      media_name: name,
+      media_cached_url: cached_file_url,
+      auto_start: false
+    };
   }
 
 
@@ -56,18 +65,31 @@ export class NFTCardComponent implements OnInit {
   }
 
   onClickCard() {
-    const {contract_address, token_id, chain, ...rest} = this.cardObj;
-    const query: NFTDetailQuery = {
+    const {contract_address, token_id, chain} = this.cardObj;
+    const query = {
       contract_address: contract_address,
       token_id: token_id,
       chain: chain,
       refresh_metadata: true
     };
-    console.log(query);
-    this.uiservice.UIStatus = UIFuncType.NFTDetail;
-    this.dataService.getNFTDetail(query).subscribe(
+    
+    this.dataService.getNFTDetail(query as NFTDetailQuery).subscribe(
       response => {
+        const NFTDetailObject = response;
+        const { name, description } = NFTDetailObject?.nft?.metadata ?? {};
+        
+        NFTDetailObject.nft.metadata = {
+          ...NFTDetailObject.nft.metadata,
+          name: name ?? this.cardObj.name
+        }
+        NFTDetailObject.nft.metadata = {
+          ...NFTDetailObject.nft.metadata,
+          description: description ?? this.cardObj.description
+        }
+
         this.uiservice.currentNFTDetail = response;
+        // window.scrollTo(0, 0);
+        this.router.navigate(['../'+UIFuncType.NFTDetail], {relativeTo: this.activatedRoute});
       }
     );
   }

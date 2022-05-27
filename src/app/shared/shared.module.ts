@@ -3,16 +3,17 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { COMPONENTS } from "./components";
-import { NFTDtailComponent } from './components/main/nftdtail/nftdtail.component';
+import { RouterModule } from "@angular/router";
 
 @NgModule({
     imports: [
-        CommonModule, 
+        CommonModule,
+        RouterModule, 
         FormsModule, 
         ReactiveFormsModule,
         FontAwesomeModule
     ],
-    declarations: [...COMPONENTS, NFTDtailComponent],
+    declarations: [...COMPONENTS],
     exports: [
         ...COMPONENTS,
         CommonModule, 
