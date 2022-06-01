@@ -1,8 +1,8 @@
-import { marketplace } from "../../Payloads"
+import { marketplace, saleTypes } from "../../Payloads"
 import { NFTransactionDetail, NFTransactionPrice } from "../Detail"
 
 export interface NFTransactionSales {
-    type: 'sale',
+    type: saleTypes,
     buyer_address: string,
     seller_address: string,
     nft: NFTransactionDetail,

@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BackendInterceptorService, NFTInterceptorService, SecureHttpInterceptorService } from './core/services';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { BackendInterceptorService, NFTInterceptorService, SecureHttpInterceptor
     HttpClientModule,
     AppRoutingModule,
     FontAwesomeModule,
+    TimeagoModule.forRoot()
   ],
   providers: [
     {

@@ -3,23 +3,25 @@ import { BehaviorSubject, map, Observable } from 'rxjs';
 import { NFTCard, NFTDetail, NFTSearchQuery, UIFuncType} from '../../models';
 import { ToolsService } from '../commons/tools.service';
 import { environment as env } from 'src/environments/environment.prod';
-import { NavigationEnd, Router } from '@angular/router';
-import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UIService {
+  private _defaultStateObject!: UIState;
   private _stateSource$!: BehaviorSubject<UIState>;
   private state$: Observable<UIState>;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
-    this._stateSource$ = new BehaviorSubject<UIState>({
+  constructor() {
+    this._defaultStateObject = {
       searchQuery: {} as NFTSearchQuery,
       currentNFT: env.tmpNFT as unknown as NFTDetail,
       searchNFTs: [],
       isSearching: false,
-      UIStatus: UIFuncType.default,
+      UIStatus: UIFuncType.NFTDetail,
+    };
+    this._stateSource$ = new BehaviorSubject<UIState>({
+      ...this._defaultStateObject
     });
     this.state$ = this._stateSource$.asObservable();
   }
@@ -29,35 +31,41 @@ export class UIService {
     return {...this._stateSource$.value as UIState};
   }
 
+  private _updateCurrentState( updates: Partial<UIState> ) {
+    this._stateSource$.next({
+      ...this._getCurrentState(),
+      ...updates,
+    });
+  }
+
+  private _selectCurrentState<T> ( attr: keyof UIState ): Observable<T> {
+    return this.state$.pipe(
+      map(state => state[attr])
+    ) as unknown as Observable<T>;
+  }
   // -------NFT Search-------
   addToSearchNFTs(NFTsToAdd: NFTCard[]): void {
     const current = this._getCurrentState().searchNFTs;
     const FilteredNFTsToAdd = ToolsService.filterInvalidNFT(NFTsToAdd);
-
-    this._stateSource$.next({
-      ...this._getCurrentState(),
-      searchNFTs: [...current, ...FilteredNFTsToAdd],
+    this._updateCurrentState({
+      searchNFTs: [...current, ...FilteredNFTsToAdd]
     });
   }
   
   selectSearchNFTs(): Observable<NFTCard[]> {
-    return this.state$.pipe(
-      map(state => state.searchNFTs)
-    ) as Observable<NFTCard[]>;
+    return this._selectCurrentState<NFTCard[]>("searchNFTs");
   }
   
   clearSearchNFTs(): void {
-    this._stateSource$.next({
-      ...this._getCurrentState(),
-      searchNFTs: [],
+    this._updateCurrentState({
+      searchNFTs: []
     });
   }
   // -------NFT Search-------
 
   // -------NFT Searching Status-------
   set SearchingStatus(newStatus: boolean) {
-    this._stateSource$.next({
-      ...this._getCurrentState(),
+    this._updateCurrentState({
       isSearching: newStatus,
     });
   }
@@ -67,16 +75,13 @@ export class UIService {
   }
 
   selectSearchingStatus(): Observable<boolean> {
-    return this.state$.pipe(
-      map(state => state.isSearching),
-    ) as Observable<boolean>;
+    return this._selectCurrentState<boolean>("isSearching");
   }
   // -------NFT Searching Status-------
 
   // -------NFT Search Querty-------
   set SearchQuery(query: NFTSearchQuery) {
-    this._stateSource$.next({
-      ...this._getCurrentState(),
+    this._updateCurrentState({
       searchQuery: query,
     });
   }
@@ -91,14 +96,11 @@ export class UIService {
   }
 
   selectSearchQuery(): Observable<NFTSearchQuery>{
-    return this.state$.pipe(
-      map(state => state.searchQuery)
-    ) as Observable<NFTSearchQuery>;
+    return this._selectCurrentState<NFTSearchQuery>("searchQuery");
   }
 
   clearSearchQuery(): void {
-    this._stateSource$.next({
-      ...this._getCurrentState(),
+    this._updateCurrentState({
       searchQuery: {} as NFTSearchQuery
     });
   }
@@ -116,14 +118,19 @@ export class UIService {
   
   // -------NFT Detail-------
   set currentNFTDetail(currentNFT: NFTDetail) {
-    this._stateSource$.next({
-      ...this._getCurrentState(),
+    this._updateCurrentState({
       currentNFT: currentNFT,
     });
   }
 
   get currentNFTDetail(): NFTDetail {
     return this._getCurrentState().currentNFT;
+  }
+
+  clearCurrentNFTContinuation(): void {
+    this.updateCurrentNFTDetail({
+      continuation: ""
+    });
   }
 
   updateCurrentNFTDetail(updates: Partial<NFTDetail>): void {
@@ -172,8 +179,13 @@ export class UIService {
       case UIFuncType.NFTDetail:
         switch(newStatus) {
           case UIFuncType.default: // NFTDetail => default
+            this.clearCurrentNFTContinuation();
+            this.SearchingStatus = false;
+            this.clearSearchQuery();
+            this.clearSearchNFTs();
             break;
           case UIFuncType.searching: // NFTDetail => searching
+            this.clearCurrentNFTContinuation();
             break;
           case UIFuncType.NFTDetail: // NFTDetail => NFTDetail
             break;
@@ -186,9 +198,8 @@ export class UIService {
         console.log(`${errorStrings[0]} ${statusString}`);
         break;
     }
-
-    this._stateSource$.next({
-      ...this._getCurrentState(),
+    
+    this._updateCurrentState({
       UIStatus: newStatus
     });
   }
@@ -198,9 +209,7 @@ export class UIService {
   }
 
   selectUIStatus(): Observable<UIFuncType> {
-    return this.state$.pipe(
-      map(state => state.UIStatus)
-    ) as Observable<UIFuncType>;
+    return this._selectCurrentState<UIFuncType>("UIStatus");
   }
   // -------UI Status-------
 }

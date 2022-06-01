@@ -35,6 +35,7 @@ export interface NFTDetail {
     nft: NFTDetailContent,
     owner?: string,
     contract?: NFTDetailContract,
-    status?: NFTStatusOfContractToken // Status of the contract tokens in the metadata refresh queue.
-    status_message?: string
+    status?: NFTStatusOfContractToken, // Status of the contract tokens in the metadata refresh queue.
+    status_message?: string,
+    continuation?: string,
 }

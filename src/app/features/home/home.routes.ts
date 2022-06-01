@@ -11,7 +11,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: IntroComponent,
+                component: NFTDtailComponent,
             },
             {
                 path: UIFuncType.searching,
@@ -23,7 +23,7 @@ export const routes: Routes = [
             },
             {
                 path: '**',
-                component: IntroComponent,
+                component: NFTDtailComponent,
             }
         ]
     }

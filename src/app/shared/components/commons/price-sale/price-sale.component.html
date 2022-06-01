@@ -1,0 +1,21 @@
+<div class="sale-price">
+    <span class="price-title">
+        <ng-content></ng-content>
+    </span>
+    <div class="price-content" *ngIf="priceObect?.price; else noLastPirce">
+        <fa-icon
+            matTooltip="{{ chainTypes.ethereum | titlecase }}"
+            [matTooltipPosition]="'above'" 
+            [icon]="icons.ethereum" 
+        ></fa-icon>&nbsp;
+        <span>
+            {{ priceObect?.price | number: '1.0-5' }}
+        </span>
+        <span class="price-in-usd">
+            (${{ priceObect?.priceInUsd | number: '1.0-3' }})
+        </span>
+    </div>
+    <ng-template #noLastPirce>
+        <span>No Data</span>
+    </ng-template>
+</div>

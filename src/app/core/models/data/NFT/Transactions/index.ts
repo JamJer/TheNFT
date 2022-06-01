@@ -3,3 +3,4 @@ export * from './Sales';
 export * from './Detail';
 export * from './Bids';
 export * from './Listings';
+export * from './Statistic';

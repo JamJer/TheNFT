@@ -75,6 +75,11 @@
   
   a {
     background-color: transparent;
+    text-decoration: none;
+    color: rgb(32, 129, 226);
+    &:visited, :active, :link {
+      text-decoration: none;
+    }
   }
   
   /**

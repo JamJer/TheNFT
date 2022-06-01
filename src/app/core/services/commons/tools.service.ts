@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NFTCard } from '../../models';
+import { chainType, NFTCard } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -47,5 +47,9 @@ export class ToolsService {
     
     return str.substring(0, midpoint-lstrip) + '...' 
     + str.substring(midpoint+rstrip);
+  }
+
+  static convertToUSD(chain: chainType, price: number) {
+    
   }
 }

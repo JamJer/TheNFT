@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../../../environments/environment.prod';
 import { catchError, map, Observable, of, Subscription, tap } from 'rxjs';
-import { NFTCard, NFTSearchQuery, APIFuncType, NFTSearchResponse, NFTDetail, NFTDetailResponse, NFTDetailQuery, NFTransactionsRecords, NFTransactionResponse, NFTransactionQuery } from '../../models';
+import { NFTCard, NFTSearchQuery, APIFuncType, NFTSearchResponse, NFTDetail, NFTDetailResponse, NFTDetailQuery, NFTransactionsRecords, NFTransactionResponse, NFTransactionQuery, ContractSaleStatistic, ContractSaleStatisticQuery } from '../../models';
 import { UIService } from '../UI/ui.service'; 
 import { ToolsService } from '../commons';
+import { ContractSaleStatisticResponse } from '../../models/data/NFT/Response/Contract/contract.model';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,22 @@ export class DataService {
     return this._requestNFTransactions(path, config);
   }
 
+  getContractStatistic(query: ContractSaleStatisticQuery): Observable<ContractSaleStatistic> {
+    const path = DataService.APIPath + 
+                 APIFuncType.ContractSaleStatistic + 
+                 query.contract_address;
+    const {chain} = query;
+    const params = new HttpParams({ 
+      fromObject: {
+        'chain': chain,
+      } 
+    });
+    const config = {
+      params
+    };
+    return this._requestContractStatistic(path, config);
+  }
+
   private _requestNFTs(path: string, config: any): Observable<NFTCard[]> {
     return this.http.get<Observable<NFTCard[]>>(path, config).pipe(
       map(response => (<NFTSearchResponse><unknown>response).search_results),
@@ -117,12 +134,20 @@ export class DataService {
   private _requestNFTransactions(path: string, config: any): Observable<NFTransactionsRecords[]> {
     return this.http.get<Observable<NFTransactionsRecords[]>>(path, config).pipe(
       map(data => {
-        const {transactions} = (<NFTransactionResponse><unknown>data);
+        console.log(data);
+        const {transactions, continuation} = (<NFTransactionResponse><unknown>data);
+        this.uiservice.currentNFTDetail.continuation = continuation ?? "";
         return transactions as NFTransactionsRecords[];
-      }),
-      catchError((error) => {
-        console.log(error);
-        return of([] as NFTransactionsRecords[]);
+      })
+    );
+  }
+
+  private _requestContractStatistic(path: string, config: any): Observable<ContractSaleStatistic> {
+    return this.http.get<Observable<ContractSaleStatistic>>(path, config).pipe(
+      map(data => {
+        console.log(data);
+        const { statistics } = (<ContractSaleStatisticResponse><unknown>data);
+        return statistics as ContractSaleStatistic;
       })
     );
   }

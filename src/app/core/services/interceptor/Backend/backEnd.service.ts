@@ -10,11 +10,7 @@ export class BackendInterceptorService implements HttpInterceptor{
   
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-            console.log(error);
-            throwError(error);
-            return of({} as HttpEvent<any>);
-        })
+        
     );
   }
 }

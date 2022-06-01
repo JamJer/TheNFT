@@ -9,8 +9,8 @@ import { InfiniteScrollModule } from "ngx-infinite-scroll";
     imports: [
         CommonModule,
         HomeRoutingModule, 
+        InfiniteScrollModule,
         SharedModule,
-        InfiniteScrollModule
     ],
     declarations: [HomeComponent]
 })

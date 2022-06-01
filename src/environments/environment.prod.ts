@@ -7,27 +7,34 @@ export const environment = {
   tmpNFT: {
     "nft": {
         "chain": "ethereum",
-        "contract_address": "0x495f947276749ce646f68ac8c248420045cb7b5e",
-        "token_id": "82101846977314619859279487256734407795158511895653841148731333025918143692801",
-        "metadata_url": "https://api.opensea.io/api/v1/metadata/0x495f947276749Ce646f68AC8c248420045cb7b5e/82101846977314619859279487256734407795158511895653841148731333025918143692801",
+        "contract_address": "0xd07dc4262bcdbf85190c01c996b4c06a461d2430",
+        "token_id": "623302",
+        "metadata_url": "ipfs://ipfs/QmTzaHMmRQ4j6TPmciA4nWwa21Zc6DQacRgGsQSxnYcR1k",
         "metadata": {
-            "animation_url": null,
-            "description": "[MINT IS LIVE - MINT HERE](http://invisiblefriends.ezyro.com/mint/mint/?i=2)\n\n",
-            "external_link": null,
-            "image": "https://lh3.googleusercontent.com/qZwy7-V_Vg-vXMMzHlYkGp26zGzwXiM-7LPSsKnzEYaJodFUltoL1IcISjLI2OXqCeC98lj0pAFRRyjyYvaVNKdr8jv96BAGsuTq_g",
-            "name": "INVISBLE FRIENDS MINT"
+            "name": "Jordan Immortal #1",
+            "description": "Jordan Immortal #1\nTribute to one of the all time greats",
+            "image": "ipfs://ipfs/QmUwDtbKXvbJx2j3gW8Lh1aUVY65uziGCgPPS6HvjEZPNa/image.jpeg",
+            "external_url": "https://rarible.com/token/0xd07dc4262bcdbf85190c01c996b4c06a461d2430:623302",
+            "attributes": []
         },
-        "file_information": null,
-        "file_url": "https://lh3.googleusercontent.com/qZwy7-V_Vg-vXMMzHlYkGp26zGzwXiM-7LPSsKnzEYaJodFUltoL1IcISjLI2OXqCeC98lj0pAFRRyjyYvaVNKdr8jv96BAGsuTq_g",
-        "cached_file_url": "https://storage.googleapis.com/sentinel-nft/raw-assets/8d24779d3ed93aca20f9f693c46dcf8773e7d07bce728f10ba8ae90907bb5022.gif",
-        "mint_date": "2022-02-03T19:21:10",
-        "updated_date": "2022-05-24T07:19:11.008299"
+        "file_information": {
+            "height": 1248,
+            "width": 802,
+            "file_size": 389663
+        },
+        "file_url": "ipfs://ipfs/QmUwDtbKXvbJx2j3gW8Lh1aUVY65uziGCgPPS6HvjEZPNa/image.jpeg",
+        "animation_url": null,
+        "cached_file_url": "https://storage.googleapis.com/sentinel-nft/raw-assets/1e4d4e13a538c5707cf32c2351435ba85b7ba8f30fe3803fff3ee0cce3a4ee0d.jpeg",
+        "cached_animation_url": null,
+        "mint_date": "2021-06-26T00:17:47",
+        "updated_date": "2022-04-14T01:14:20.911511"
     },
-    "owner": "0x92f4937c03a5dd90f5382ea593c9f7f3ae1d23a5",
+    "owner": "0x279b2309440dc5807ef5e26a0799f2d2cdda94a7",
     "contract": {
-        "name": "OpenSea Shared Storefront",
-        "symbol": "OPENSTORE",
+        "name": "Rarible",
+        "symbol": "RARI",
         "type": "ERC1155"
-    }
+    },
+    "continuation": "1625482769000_61ea0c7a2f44480695454664"
 }
 };

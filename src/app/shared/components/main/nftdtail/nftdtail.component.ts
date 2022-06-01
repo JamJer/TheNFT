@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
-import { BaseComponent, chainType, DataService, Media, NFTContractType, NFTDetail, NFTransactionQuery, ToolsService, transactionType, UIService } from 'src/app/core';
+import { BaseComponent, bidsTypes, chainType, ContractSaleStatisticQuery, DataService, listingTypes, Media, NFTContractType, NFTDetail, NFTPortErrorModel, NFTPortErrorResponse, NFTransactionQuery, NFTransactionSales, NFTransactionsRecords, NFTransactionTable, saleTypes, ToolsService, transactionType, transferTypes, UIService } from 'src/app/core';
+import { SalePrice } from 'src/app/core/models/data/NFT/Transactions/Sales/price.model';
 import { FadeFromBottom, FadeFromTop, ScaleFade, SlideRight } from 'src/app/shared/animations';
 
 @Component({
@@ -30,11 +32,43 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
   }  
   chainTypes = chainType;
   NO_DATA_STRING = "NO Data";
+  NULL_ADDRESS_STRING = "NUll";
 
-  constructor(private uiservice: UIService, private dataservice: DataService) {
-    super();
+  transactionSource = new MatTableDataSource<NFTransactionTable>();
+  transactionColums = [
+    'transaction-event', 
+    'transaction-price', 
+    'transaction-from', 
+    'transaction-to', 
+    'transaction-date'
+  ];
+  
+  isTransactionLoading: boolean = true;
+  isTransactionLoadFail: {
+    noData: boolean,
+    hasError: boolean,
+    errorMsg: string
+  } = {
+    noData: false,
+    hasError: false,
+    errorMsg: ''
   }
 
+  priceSaleData: {
+    last?: SalePrice,
+    average?: SalePrice,
+  } = {
+    last: undefined,
+    average: undefined,
+  };
+
+  constructor(
+    private uiservice: UIService, 
+    private dataservice: DataService, 
+  ) {
+    super();
+  }
+  
   ngOnInit(): void {
     this.initDetailObject();
     console.log(this.NFTDetailObject);
@@ -42,6 +76,7 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
     this.initContract();
     this.initDetailContent();
     this.initTransaction();
+    // this.initContractStatistic();
   }
 
   initDetailObject(): void {
@@ -83,23 +118,129 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
   }
 
   initTransaction(): void {
-    const {chain, contract_address, token_id} = this.NFTDetailObject.nft;
-    const transactionQeury = {
+    const {continuation, ...rest} = this.NFTDetailObject;
+    const {chain, contract_address, token_id} = rest.nft;
+    const transactionQeury: NFTransactionQuery = {
       type: [transactionType.all],
       chain: chain,
       contract_address: contract_address,
-      token_id: token_id
+      token_id: token_id,
+      continuation: continuation ?? "",
     };
     const nftransactions$ = this.dataservice.getNFTransactions(transactionQeury);
     let subscriber$ = new Subscription;
+
+    this.isTransactionLoading = true;
     subscriber$ = nftransactions$.subscribe(
       response => {
-        console.log(response);
+        const current = this.transactionSource.data;        
+        this.transactionSource.data = current.concat(this._processFortransaction(response));
+        this.initPriceSaleData();
+      },
+      err => {
+        const error: NFTPortErrorResponse = err.error;
+        if(error.error.status_code === 404)
+          this.isTransactionLoadFail = {
+            noData: true,
+            hasError: false,
+            errorMsg: error.error.message
+        }
+        if(error.error.status_code === 422)
+          this.isTransactionLoadFail = {
+            noData: false,
+            hasError: true,
+            errorMsg: error.error.message
+        }
+        this.isTransactionLoading = false;
+      },
+      () => this.isTransactionLoading = false
+    );
+  }
+
+  initPriceSaleData(): void {
+    if(!this.transactionSource.data.length) return;
+    const cloneTransactions: NFTransactionTable[] = [];
+    this.transactionSource.data.forEach(element => {
+      cloneTransactions.push(Object.assign({}, element));
+    });
+    const saleHistory = cloneTransactions.filter(
+      elemet => elemet.event === saleTypes.sale
+    );
+    if(!saleHistory.length) return;
+    const { price, priceInUSD } = saleHistory[0];
+    this.priceSaleData.last = {
+      price: price,
+      priceInUsd: priceInUSD,
+    };
+    const priceAverage = saleHistory.reduce((total, next) => total + (next?.price ?? 0), 0) / saleHistory.length;
+    const priceAverageInUsd = (price && priceInUSD) ? (priceAverage * priceInUSD / price): undefined;
+    this.priceSaleData.average = {
+      price: priceAverage,
+      priceInUsd: priceAverageInUsd,
+    };
+    console.log(this.priceSaleData);
+  }
+
+  initContractStatistic(): void {
+    const {chain, contract_address} = this.NFTDetailObject.nft;
+    let subscriber$ = new Subscription;
+    const ContractSaleStatisticQuery: ContractSaleStatisticQuery = {
+      chain: chain,
+      contract_address: contract_address,
+    };
+    subscriber$ = this.dataservice.getContractStatistic(ContractSaleStatisticQuery).subscribe(
+      respons => {
+        console.log(respons);
       }
     );
   }
 
-  trimAddress(str: string) {
-    return ToolsService.smartTrim(str, 10);
+  onTransactionsReachBottom(): void {
+    const {continuation} = this.NFTDetailObject;
+    if(continuation && continuation !== '') this.initTransaction();
+  }
+
+  private _processFortransaction(data: NFTransactionsRecords[]): NFTransactionTable[] {
+    const _r: NFTransactionTable[] = [];
+    data.forEach((d) => {
+      const current: NFTransactionTable = {
+        event: d.type,
+        eventIcon: this.icons[d.type],
+        price: undefined,
+        priceInUSD: undefined,
+        from: undefined,
+        to: undefined,
+        date: new Date(d.transaction_date)
+      }
+      switch(d.type) {
+        case transferTypes.transfer:
+        case transferTypes.mint:
+        case transferTypes.burn:
+          current.from = d.transfer_from;
+          current.to = d.transfer_to ?? (d.type === transferTypes.mint ? d.owner_address : undefined);
+          break;
+        case bidsTypes.bid:
+        case bidsTypes.cancel_bid:
+          current.from = d.bidder_address;
+          current.price = d.price_details.price;
+          break;
+        case saleTypes.sale:
+          current.from = d.seller_address;
+          current.to = d.buyer_address;
+          current.price = d.price_details.price;
+          current.priceInUSD = d.price_details.price_usd;
+          break;
+        case listingTypes.list:
+        case listingTypes.cancel_list:
+          current.from = d.lister_address;
+          current.price = d.price_details.price;
+          break;
+        default:
+          console.log('Unkonwn transaction type.');
+          break;
+      };
+      _r.push(current);
+    });
+    return _r;
   }
 }
