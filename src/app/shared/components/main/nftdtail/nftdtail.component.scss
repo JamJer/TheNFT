@@ -274,13 +274,19 @@
         .NFT-Pricesale {
             @include box-shadow-default;
             width: 100%;
-            height: 17rem;
+            height: 100%;
             padding: 10px 20px;
+            position: relative;
 
             .current-sale {
                 display: flex;
                 flex-flow: row nowrap;
                 gap: 10px;
+            }
+
+            .sale-chart {
+                display: block;
+                overflow: hidden;
             }
         }
 

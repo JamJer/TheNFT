@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { ChartConfiguration, ChartType } from 'chart.js';
 import { Subscription } from 'rxjs';
 import { BaseComponent, bidsTypes, chainType, ContractSaleStatisticQuery, DataService, listingTypes, Media, NFTContractType, NFTDetail, NFTPortErrorModel, NFTPortErrorResponse, NFTransactionQuery, NFTransactionSales, NFTransactionsRecords, NFTransactionTable, saleTypes, ToolsService, transactionType, transferTypes, UIService } from 'src/app/core';
 import { SalePrice } from 'src/app/core/models/data/NFT/Transactions/Sales/price.model';
@@ -61,6 +62,12 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
     last: undefined,
     average: undefined,
   };
+
+  priceSaleLineChart!: {
+    data: ChartConfiguration['data'],
+    options: ChartConfiguration['options'],
+    type: ChartType,
+  }
 
   constructor(
     private uiservice: UIService, 
@@ -167,13 +174,14 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
       elemet => elemet.event === saleTypes.sale
     );
     if(!saleHistory.length) return;
+    this.priceSaleLineChart =  this._processForPriceChart(saleHistory);
     const { price, priceInUSD } = saleHistory[0];
     this.priceSaleData.last = {
       price: price,
       priceInUsd: priceInUSD,
     };
     const priceAverage = saleHistory.reduce((total, next) => total + (next?.price ?? 0), 0) / saleHistory.length;
-    const priceAverageInUsd = (price && priceInUSD) ? (priceAverage * priceInUSD / price): undefined;
+    const priceAverageInUsd = (price && priceInUSD) ? (priceAverage * priceInUSD / price) : undefined;
     this.priceSaleData.average = {
       price: priceAverage,
       priceInUsd: priceAverageInUsd,
@@ -242,5 +250,53 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
       _r.push(current);
     });
     return _r;
+  }
+
+  private _processForPriceChart(data: NFTransactionTable[]): typeof this.priceSaleLineChart {
+    const priceArray: {
+      price: number[],
+      date: Date[],
+    } = {
+      price: [],
+      date: [],
+    };
+    data.forEach(element => {
+      if(!element.price || !element.date) return;
+      priceArray.price.push(element.price);
+      priceArray.date.push(new Date(element.date));
+    });
+    console.log(priceArray);
+    const lineChartType: ChartType = 'line';
+    const lineChartData: ChartConfiguration['data'] = {
+      datasets: [
+        {
+          data: priceArray.price,
+          label: 'Price History'
+        },
+      ],
+      labels: [priceArray.date],
+    };
+    const lineChartOptions: ChartConfiguration['options'] = {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          time: {
+            unit: 'month',
+            displayFormats: {
+              day: 'MMM D', // This is the default
+            }
+          },
+          ticks: {
+            source: 'auto'
+          }
+        }
+      }
+    };
+    return {
+      data: lineChartData,
+      options: lineChartOptions,
+      type: lineChartType,
+    } as typeof this.priceSaleLineChart;
   }
 }
