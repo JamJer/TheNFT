@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { BaseComponent, bidsTypes, chainType, ContractSaleStatisticQuery, DataService, listingTypes, Media, NFTContractType, NFTDetail, NFTPortErrorModel, NFTPortErrorResponse, NFTransactionQuery, NFTransactionSales, NFTransactionsRecords, NFTransactionTable, saleTypes, ToolsService, transactionType, transferTypes, UIService } from 'src/app/core';
 import { SalePrice } from 'src/app/core/models/data/NFT/Transactions/Sales/price.model';
 import { FadeFromBottom, FadeFromTop, ScaleFade, SlideRight } from 'src/app/shared/animations';
+import 'chartjs-adapter-date-fns';
+import { enUS } from 'date-fns/locale';
 
 @Component({
   selector: 'app-nftdtail',
@@ -263,7 +265,7 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
     data.forEach(element => {
       if(!element.price || !element.date) return;
       priceArray.price.push(element.price);
-      priceArray.date.push(new Date(element.date));
+      priceArray.date.push(element.date);
     });
     console.log(priceArray);
     const lineChartType: ChartType = 'line';
@@ -271,25 +273,51 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
       datasets: [
         {
           data: priceArray.price,
-          label: 'Price History'
+          label: 'Price'
         },
       ],
-      labels: [priceArray.date],
+      labels: priceArray.date,
     };
     const lineChartOptions: ChartConfiguration['options'] = {
       responsive: true,
       maintainAspectRatio: false,
+      animations: {
+        radius: {
+          duration: 1000,
+          easing: 'linear',
+          from: 0,
+          to: 1,
+          loop: false
+        }
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+            callbacks: {
+              label: function(context) {
+                var label = context.dataset.label || '';
+                console.log(context.dataset);
+                if (label) {
+                    label += ': ';
+                }
+                if (context.parsed.y !== null) {
+                    label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                }
+                return label;
+              }
+            }
+        }
+      },
       scales: {
         x: {
-          time: {
-            unit: 'month',
-            displayFormats: {
-              day: 'MMM D', // This is the default
+          type: 'time',
+          adapters: {
+            date: {
+              locale: enUS
             }
           },
-          ticks: {
-            source: 'auto'
-          }
         }
       }
     };
