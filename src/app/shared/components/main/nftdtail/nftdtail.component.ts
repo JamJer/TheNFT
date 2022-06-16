@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartConfiguration, ChartType } from 'chart.js';
 import { Subscription } from 'rxjs';
@@ -7,6 +7,7 @@ import { SalePrice } from 'src/app/core/models/data/NFT/Transactions/Sales/price
 import { FadeFromBottom, FadeFromTop, ScaleFade, SlideRight } from 'src/app/shared/animations';
 import 'chartjs-adapter-date-fns';
 import { enUS } from 'date-fns/locale';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   selector: 'app-nftdtail',
@@ -20,6 +21,7 @@ import { enUS } from 'date-fns/locale';
   ]
 })
 export class NFTDtailComponent extends BaseComponent implements OnInit {
+  @ViewChild(BaseChartDirective) chart?: BaseChartDirective;
   NFTDetailObject!: NFTDetail;
   mediaObject!: Media;
   contractObject!: {
@@ -65,15 +67,84 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
     average: undefined,
   };
 
-  priceSaleLineChart!: {
+  priceSaleLineChart: {
     data: ChartConfiguration['data'],
     options: ChartConfiguration['options'],
     type: ChartType,
+  } = {
+    data: {
+      datasets: [
+        {
+          data: [],
+          label: 'Price',
+          backgroundColor: 'rgba(77,83,96,0.2)',
+          borderColor: 'rgba(77,83,96,1)',
+          pointBackgroundColor: 'rgba(77,83,96,1)',
+          pointBorderColor: 'gray',
+          pointHoverBackgroundColor: 'gray',
+          pointHoverBorderColor: 'rgba(77,83,96,1)',
+          pointRadius: 5,
+          borderWidth: 3,
+          pointBorderWidth: 5,
+          pointStyle: 'circle',
+          fill: 'origin',
+          tension: 0.3,
+        },
+      ],
+      labels: [],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      animations: {
+        radius: {
+          duration: 1000,
+          easing: 'linear',
+          from: 0,
+          to: 1,
+          loop: false
+        }
+      },
+      plugins: {
+        legend: {
+          display: false,
+        },
+        tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = '';
+                if (context.parsed.y !== null) {
+                    label += (ToolsService.toTitleCase(chainType.ethereum) + ": "+ context.parsed.y);
+                }
+                return label;
+              }
+            }
+        }
+      },
+      scales: {
+        x: {
+          type: 'time',
+          adapters: {
+            date: {
+              locale: enUS
+            }
+          },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 5,
+          }
+        }
+      }
+    },
+    type: 'line',
   }
 
   constructor(
     private uiservice: UIService, 
-    private dataservice: DataService, 
+    private dataservice: DataService,
+    private toolservice: ToolsService, 
   ) {
     super();
   }
@@ -176,7 +247,7 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
       elemet => elemet.event === saleTypes.sale
     );
     if(!saleHistory.length) return;
-    this.priceSaleLineChart =  this._processForPriceChart(saleHistory);
+    this._processForPriceChart(saleHistory);
     const { price, priceInUSD } = saleHistory[0];
     this.priceSaleData.last = {
       price: price,
@@ -254,7 +325,7 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
     return _r;
   }
 
-  private _processForPriceChart(data: NFTransactionTable[]): typeof this.priceSaleLineChart {
+  private _processForPriceChart(data: NFTransactionTable[]): void {
     const priceArray: {
       price: number[],
       date: Date[],
@@ -268,63 +339,8 @@ export class NFTDtailComponent extends BaseComponent implements OnInit {
       priceArray.date.push(element.date);
     });
     console.log(priceArray);
-    const lineChartType: ChartType = 'line';
-    const lineChartData: ChartConfiguration['data'] = {
-      datasets: [
-        {
-          data: priceArray.price,
-          label: 'Price'
-        },
-      ],
-      labels: priceArray.date,
-    };
-    const lineChartOptions: ChartConfiguration['options'] = {
-      responsive: true,
-      maintainAspectRatio: false,
-      animations: {
-        radius: {
-          duration: 1000,
-          easing: 'linear',
-          from: 0,
-          to: 1,
-          loop: false
-        }
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        tooltip: {
-            callbacks: {
-              label: function(context) {
-                var label = context.dataset.label || '';
-                console.log(context.dataset);
-                if (label) {
-                    label += ': ';
-                }
-                if (context.parsed.y !== null) {
-                    label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
-                }
-                return label;
-              }
-            }
-        }
-      },
-      scales: {
-        x: {
-          type: 'time',
-          adapters: {
-            date: {
-              locale: enUS
-            }
-          },
-        }
-      }
-    };
-    return {
-      data: lineChartData,
-      options: lineChartOptions,
-      type: lineChartType,
-    } as typeof this.priceSaleLineChart;
+    this.priceSaleLineChart.data.datasets[0].data = priceArray.price;
+    this.priceSaleLineChart.data.labels = priceArray.date;
+    this.chart?.update();
   }
 }

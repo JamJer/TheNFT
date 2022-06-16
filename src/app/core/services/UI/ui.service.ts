@@ -14,11 +14,14 @@ export class UIService {
 
   constructor() {
     this._defaultStateObject = {
+      UIStatus: UIFuncType.default,
       searchQuery: {} as NFTSearchQuery,
-      currentNFT: env.tmpNFT as unknown as NFTDetail,
       searchNFTs: [],
+      currentNFT: env.tmpNFT as unknown as NFTDetail,
+      promoNFT: env.promoNFT as unknown as NFTDetail[],
+      trendingNFTs: env.trendingNFTs as unknown as NFTDetail[],
       isSearching: false,
-      UIStatus: UIFuncType.NFTDetail,
+      isProgressing: false,
     };
     this._stateSource$ = new BehaviorSubject<UIState>({
       ...this._defaultStateObject
@@ -133,6 +136,28 @@ export class UIService {
     });
   }
 
+  // ------NFT Promo------
+  set promoNFT(nfts: NFTDetail[]) {
+    this._updateCurrentState({
+      promoNFT: nfts,
+    });
+  }
+
+  get promoNFT(): NFTDetail[] {
+    return this._getCurrentState().promoNFT;
+  }
+
+  set trendingNFTs(nfts: NFTDetail[]) {
+    this._updateCurrentState({
+      trendingNFTs: nfts,
+    });
+  }
+
+  get trendingNFTs(): NFTDetail[] {
+    return this._getCurrentState().trendingNFTs;
+  }
+  // ------NFT Promo------
+
   updateCurrentNFTDetail(updates: Partial<NFTDetail>): void {
     if(!Object.entries(this.currentNFTDetail).length) return;
     this.currentNFTDetail = ToolsService.updatePartialObject<NFTDetail>(this.currentNFTDetail, updates);
@@ -212,6 +237,22 @@ export class UIService {
     return this._selectCurrentState<UIFuncType>("UIStatus");
   }
   // -------UI Status-------
+
+  // -------Progressing bar-------
+  set isProgressing(sw: boolean) {
+    this._updateCurrentState({
+      isProgressing: sw,
+    });
+  }
+
+  get isProgressing(): boolean {
+    return this._getCurrentState().isProgressing;
+  }
+
+  selectIsProgressing(): Observable<boolean> {
+    return this._selectCurrentState<boolean>("isProgressing");
+  }
+  // -------Progressing bar-------
 }
 
 export interface UIState {
@@ -222,7 +263,10 @@ export interface UIState {
   
   // NFT Detail
   currentNFT: NFTDetail;
+  promoNFT: NFTDetail[];
+  trendingNFTs: NFTDetail[],
 
   // UI Related
   UIStatus: UIFuncType;
+  isProgressing: boolean;
 }

@@ -7,13 +7,15 @@ $breakpoints: (
     xxl: 1400px
 ) !default;
 
-$primaryColor: #192740;
+$primaryColor: white;
 $secondaryColor: white;
-$buleGray: #1E2C57;
+$buleGray: #ffffff;
 $babyBlue: #C3E0E5;
 
 $defaultbackgroundColor: black;
 $defaultborderColor: #3E3E3E;
 $defaultMainContentColor: $secondaryColor;
+$defaultMainContentMaxWidth: 64rem;
 
 $borderRadius: 10px;
+

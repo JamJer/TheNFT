@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ScrollDispatcher, CdkScrollable } from '@angular/cdk/scrolling';
 import { ActivatedRoute } from '@angular/router';
 import { IInfiniteScrollEvent } from 'ngx-infinite-scroll';
 import { filter, Observable, Subject, Subscription, takeUntil } from 'rxjs';
@@ -15,6 +16,11 @@ import {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent extends BaseComponent implements OnInit {
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: any) {
+    this.isDefaultScrolled = window.pageYOffset > 0;
+  }
+
   UIType$?: Observable<UIFuncType>;
   UITypes = UIFuncType;
   onScrollDown$ = new Subject<IInfiniteScrollEvent>();
@@ -24,8 +30,13 @@ export class HomeComponent extends BaseComponent implements OnInit {
   scrollUpDistance: number = .1;
   scrollThrottle: number = 300;
 
+  isDefaultScrolled: boolean = false;
 
-  constructor(private uiService: UIService, private dataservice: DataService, private activatedRoute:ActivatedRoute) { 
+  constructor(
+    private uiService: UIService, 
+    private dataservice: DataService, 
+    private scrollDispatcher: ScrollDispatcher,
+  ) { 
     super();
   }
 
@@ -47,7 +58,7 @@ export class HomeComponent extends BaseComponent implements OnInit {
     );
   }
 
-  onScrollUp() {
+  onScrollUp() { 
     // Todo something.
   }
 }

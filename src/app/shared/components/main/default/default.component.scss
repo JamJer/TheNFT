@@ -1,0 +1,72 @@
+@import 'styles.scss';
+
+.default-container {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    row-gap: 4rem;
+
+    @mixin default-title {
+        @include main-font-family;
+        font-size: xx-large;
+        font-weight: bolder;
+        color: white;
+
+        @include respond-below(sm) {
+            font-size: x-large;
+        }
+    }
+
+    .defaut-width {
+        max-width: $defaultMainContentMaxWidth;
+    }
+
+    .trending-NFTs {
+        
+        .trending-title {
+            @include default-title;
+        }
+    }
+
+    .intro-feature {
+        display: flex;
+        flex-flow: column nowrap;
+        row-gap: 1rem;
+        align-items: center;
+
+        .intro-title { 
+            @include default-title;
+        }
+
+        .card-container {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+
+            .intro-card {
+                max-width: calc($defaultMainContentMaxWidth / 4);
+                background: transparent;
+                box-shadow: none;
+                display: flex;
+                flex-flow: column;
+                align-items: center;
+                color: rgb(224, 249, 255);
+                row-gap: 10px;
+
+                .card-icon {
+                    font-size: xx-large;
+                }
+
+                mat-card-title {
+                    font-size: medium;
+                    color: rgb(1, 87, 102);
+                }
+
+                mat-card-content {
+                    text-align: center;
+                }
+            }
+        }
+    }
+}

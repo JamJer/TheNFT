@@ -1,6 +1,9 @@
 <div class="header-container" @fade>
-    <div class="header-stars-background"></div>
-    <div @fadeFromTop class="header-navbar-wrap" [ngClass]="{'header-navbar-scroll': (UIType$ | async) !== UITypes.default}">
+    <div class="header-stars-background">
+    </div>
+    <div class="promo-background-overlay">
+    </div>
+    <div @fadeFromTop class="header-navbar-wrap" [ngClass]="{'header-navbar-scroll': ((UIType$ | async) !== UITypes.default || isScrolledOnDefault )}">
         <div class="navbar-title">
             <a href="javascript:void(0)" (click)="setUI(UITypes.default)">TheNFT</a>
         </div>
@@ -9,9 +12,12 @@
             <a href="javascript:void(0)">Create</a>
             <a href="javascript:void(0)">Feed</a>
         </div>
-        <div class="navbar-search" [hidden]="(UIType$ | async) !== UITypes.default">
+        <div class="navbar-search" [hidden]="(UIType$ | async) !== UITypes.default || isScrolledOnDefault">
             <app-search [isOnHeader]="true"></app-search>
         </div>
+    </div>
+    <div class="header-progress" *ngIf="(isProgressing$ | async)" @fade>
+        <mat-progress-bar mode="query"></mat-progress-bar>
     </div>
     <div class="header-promo" *ngIf="(UIType$ | async) === UITypes.default">
         <div class="promo-left flex-1">
@@ -21,8 +27,15 @@
             <div @fadeFromBottom class="second-title">
                 <span>Trade with Simpler and Smarter NFT World</span>
             </div>
+            <div class="create-and-expore">
+                <button mat-flat-button (click)="setUI(UITypes.searching)">Expore</button>
+                <button mat-flat-button>Create</button>
+            </div>
         </div>
-        <div @fadeFromTop class="promo-right flex-1">
+        <div class="promo-right flex-1">
+            <div class="promo-NFT">
+                <app-container-gallery-hover [galleryArray]="NFTPromo"></app-container-gallery-hover>
+            </div>
         </div>
     </div>
 </div>

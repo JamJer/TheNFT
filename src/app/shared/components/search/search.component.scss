@@ -9,22 +9,15 @@
 }
 
 .search-on-header {
-    &:hover {
-        transform: scale(1.1);
-    }
 
     .search-input[type=text] {
         @include main-font-family;
-        border: 1px solid $defaultborderColor;
+        border: 2px solid $defaultborderColor;
         border-radius: 30px;
         background: transparent;
         padding: 0.4rem 2.3rem;
         color: gainsboro;
         width: 10rem;
-        &:hover {
-            @include main-bg-gra-color;
-            cursor: text;
-        }
     }
     .search-icon {
         position: absolute;

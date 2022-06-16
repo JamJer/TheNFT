@@ -5,30 +5,48 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { COMPONENTS } from "./components";
 import { RouterModule } from "@angular/router";
 import { SharedMaterialModule } from './material';
-import { CustomPipes } from "../core";
+import { CustomDirectives, CustomPipes } from "../core";
 import { TimeagoModule } from "ngx-timeago";
 import { InfiniteScrollModule } from "ngx-infinite-scroll";
 import { NgChartsModule } from 'ng2-charts';
 import { PriceSaleComponent } from './components/commons/price-sale/price-sale.component';
+import { DefaultComponent } from './components/main/default/default.component';
+import { NftpreviewComponent } from './components/cards/nftpreview/nftpreview.component';
+import { ContainerGalleryHoverComponent } from './components/commons/container-gallery-hover/container-gallery-hover.component';
+import { CarouselSliderComponent } from './components/commons/carousel-slider/carousel-slider.component';
+
+const FORSHAREDUSE = [
+  PriceSaleComponent,
+  DefaultComponent,
+  NftpreviewComponent,
+  ContainerGalleryHoverComponent,
+  CarouselSliderComponent,
+];
 
 @NgModule({
     imports: [
         CommonModule,
         SharedMaterialModule,
-        RouterModule, 
-        FormsModule, 
+        RouterModule,
+        FormsModule,
         ReactiveFormsModule,
         FontAwesomeModule,
         TimeagoModule,
         InfiniteScrollModule,
-        NgChartsModule, 
+        NgChartsModule,
     ],
-    declarations: [...COMPONENTS, ...CustomPipes, PriceSaleComponent],
+    declarations: [
+      ...COMPONENTS,
+      ...CustomPipes,
+      ...CustomDirectives,
+      ...FORSHAREDUSE
+    ],
     exports: [
         ...COMPONENTS,
         ...CustomPipes,
-        CommonModule, 
-        FormsModule, 
+        ...CustomDirectives,
+        CommonModule,
+        FormsModule,
         ReactiveFormsModule,
         TimeagoModule,
     ],

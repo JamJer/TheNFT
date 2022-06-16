@@ -1,0 +1,29 @@
+<div class="default-container">
+    <div class="trending-NFTs defaut-width">
+        <div class="trending-title">
+            <span>Trending NFTs</span>
+        </div>
+        <app-carousel-slider [nftArray]="trendingNFTs"></app-carousel-slider>
+    </div>
+    <div class="intro-feature defaut-width">
+        <div class=intro-title>
+            <span>Create and sell your NFTs</span>
+        </div>
+        <div class="card-container">
+            <ng-container *ngFor="let intro of introList">
+                <mat-card class="intro-card">
+                    <fa-icon
+                        class="card-icon" 
+                        [icon]="icons[intro.icon]" 
+                    ></fa-icon>
+                    <mat-card-title-group>
+                        <mat-card-title>{{ intro.title | titlecase }}</mat-card-title>
+                    </mat-card-title-group>
+                    <mat-card-content>
+                        {{ intro.content }}
+                    </mat-card-content>
+                </mat-card>
+            </ng-container>
+        </div>
+    </div>
+</div>

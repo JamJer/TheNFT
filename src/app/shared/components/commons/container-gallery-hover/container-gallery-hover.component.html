@@ -1,0 +1,7 @@
+<div class="gallery-hover-container">
+    <ng-container *ngFor="let obj of galleryArray">
+        <div class="card">
+            <app-nftpreview [NFTDetailObject]="obj" [isClickable]="true" @fadeFromRight></app-nftpreview>
+        </div>
+    </ng-container>
+</div>

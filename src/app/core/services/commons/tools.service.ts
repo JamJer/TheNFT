@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { chainType, NFTCard } from '../../models';
+import { NFTCard } from '../../models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,12 @@ export class ToolsService {
   static checkIfImgURL(url: string) {
       return(url.match(/\.(jpeg|jpg|jfif|pjpeg|gif|pjp|png|svg|apng|webp|avif|)$/) != null);
   }
-  
+
   static filterInvalidNFT(toFilter: NFTCard[]) {
-    return toFilter.filter(item => 
-      ((item.cached_file_url !== "") && 
-       (item.cached_file_url.indexOf('octet-stream') == -1)));
+    return toFilter.length ? toFilter.filter(item =>
+      ((item.cached_file_url !== "") &&
+       (item.cached_file_url.indexOf('octet-stream') == -1))) :
+      [];
   }
 
   static convertToObject(query: any): Record<string,string> {
@@ -44,12 +45,15 @@ export class ToolsService {
     const toremove = str.length - maxLen;
     const lstrip = Math.ceil(toremove/2);
     const rstrip = toremove - lstrip;
-    
-    return str.substring(0, midpoint-lstrip) + '...' 
+
+    return str.substring(0, midpoint-lstrip) + '...'
     + str.substring(midpoint+rstrip);
   }
 
-  static convertToUSD(chain: chainType, price: number) {
-    
+  static toTitleCase(str: string): string {
+    return str.replace(
+      /\w\S*/g,
+      txt => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase()
+    );
   }
 }

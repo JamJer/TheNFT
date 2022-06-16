@@ -1,0 +1,47 @@
+<div 
+    class="Detail-media" 
+    @scaleFade
+    matRipple
+    [matRippleCentered]="false"
+    [matRippleDisabled]="!isClickable"
+    [matRippleUnbounded]="false"
+    [matRippleColor]="'white'"
+    (click)="onGoToDetail()"
+>
+    <div class="media-container">
+        <app-media-container [mediaObject]="mediaObject"></app-media-container>
+    </div>
+    <div class="info-bar" *ngIf="isInfoBarShown;else previewMask">
+        <div class="NFT-coin-logo">
+            <img 
+                *ngIf="NFTDetailObject?.nft?.chain === chainTypes.ethereum"
+                matTooltip="{{ chainTypes.ethereum | titlecase }}"  
+                src="../../../../../assets/image/cryptocurrent/ethereum-middle.png"
+            >
+            <img 
+                *ngIf="NFTDetailObject?.nft?.chain === chainTypes.polygon"
+                matTooltip="{{ chainTypes.polygon | titlecase }}" 
+                src="../../../../../assets/image/cryptocurrent/polygon.png"
+            >
+        </div>
+        <fa-icon 
+            class="like-icon"
+            matTooltip="Like" 
+            [icon]="icons.heartEmpty" 
+        ></fa-icon>
+    </div>
+    <ng-template #previewMask>
+        <div class="preview-mask" [ngClass]="{'show': isTitleMaskShown }">
+            <div class="mask-title">
+                <span>{{ NFTDetailObject?.nft?.metadata?.name}}</span>
+            </div>
+            <div class="mask-chain">
+                <fa-icon
+                    matTooltip="{{ chainTypes.ethereum | titlecase }}"
+                    [matTooltipPosition]="'above'" 
+                    [icon]="icons.ethereum" 
+                ></fa-icon>
+            </div>
+        </div>
+    </ng-template>
+</div>

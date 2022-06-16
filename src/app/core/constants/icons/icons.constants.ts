@@ -1,4 +1,4 @@
-import { 
+import {
     faEye,
     faHandPointRight,
     faFrown,
@@ -15,7 +15,10 @@ import {
     faShoppingCart as sale,
     faTag as list,
     faCircleNotch as loadingCircle,
-
+    faWallet as wallet,
+    faShapes as cubies,
+    faPhotoVideo as picture,
+    faAlignJustify as stack,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
@@ -38,4 +41,8 @@ export const Icons = {
     cancel_list: cancel,
     ethereum: ethereum,
     loadingCircle: loadingCircle,
+    wallet: wallet,
+    cubies: cubies,
+    picture: picture,
+    stack: stack,
 };

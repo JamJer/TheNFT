@@ -1,29 +1,6 @@
 <div class="NFT-Detail-container">
     <div class="Detail-left">
-        <div class="Detail-media" @scaleFade>
-            <div class="media-container">
-                <app-media-container [mediaObject]="mediaObject"></app-media-container>
-            </div>
-            <div class="info-bar">
-                <div class="NFT-coin-logo">
-                    <img 
-                        *ngIf="NFTDetailObject?.nft?.chain === chainTypes.ethereum"
-                        matTooltip="{{ chainTypes.ethereum | titlecase }}"  
-                        src="../../../../../assets/image/cryptocurrent/ethereum-middle.png"
-                    >
-                    <img 
-                        *ngIf="NFTDetailObject?.nft?.chain === chainTypes.polygon"
-                        matTooltip="{{ chainTypes.polygon | titlecase }}" 
-                        src="../../../../../assets/image/cryptocurrent/polygon.png"
-                    >
-                </div>
-                <fa-icon 
-                    class="like-icon"
-                    matTooltip="Like" 
-                    [icon]="icons.heartEmpty" 
-                ></fa-icon>
-            </div>
-        </div>
+        <app-nftpreview [NFTDetailObject]="NFTDetailObject" [isInfoBarShown]="true"></app-nftpreview>
         <div class="Detail-contract">
             <div class="contract-title" @fadeFromTop>
                 <span>Contract</span>
@@ -32,7 +9,7 @@
             <div class="contract-content">
                 <div class="contract-address" @fadeFromTop>
                     <span>
-                        Contract address: 
+                        Contract address:
                     </span>
                     <a href="{{ contractObject.contract_address | linkNFTAddr }}" target="_blank">{{ contractObject.contract_address | addrTrimFromCenter }}</a>
                 </div>
@@ -88,7 +65,7 @@
                 </app-price-sale>
             </div>
             <div class="sale-chart">
-                <canvas 
+                <canvas
                     baseChart
                     [data]="priceSaleLineChart.data"
                     [options]="priceSaleLineChart.options"
@@ -98,7 +75,7 @@
             </div>
         </div>
         <div class="NFT-transaction">
-            <div 
+            <div
                 class="transactions-table"
                 infiniteScroll
                 [infiniteScrollDistance]=".1"
@@ -107,7 +84,7 @@
                 (scrolled)="onTransactionsReachBottom()"
                 [scrollWindow]="false"
             >
-                <table mat-table 
+                <table mat-table
                        [dataSource]="transactionSource"
                 >
                     <ng-container matColumnDef="transaction-event">
@@ -115,10 +92,10 @@
                         <td mat-cell *matCellDef="let transaction">
                             <fa-icon
                                 matTooltip="{{ transaction.event | titlecase }}"
-                                [matTooltipPosition]="'left'" 
-                                class="transaction-icon" 
-                                [icon]="transaction.eventIcon" 
-                            ></fa-icon> 
+                                [matTooltipPosition]="'left'"
+                                class="transaction-icon"
+                                [icon]="transaction.eventIcon"
+                            ></fa-icon>
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="transaction-price">
@@ -127,8 +104,8 @@
                             <fa-icon
                                 *ngIf="transaction?.price"
                                 matTooltip="{{ chainTypes.ethereum | titlecase }}"
-                                [matTooltipPosition]="'left'" 
-                                [icon]="icons.ethereum" 
+                                [matTooltipPosition]="'left'"
+                                [icon]="icons.ethereum"
                             ></fa-icon>
                             {{ transaction?.price }}
                         </td>
@@ -136,9 +113,9 @@
                     <ng-container matColumnDef="transaction-from">
                         <th mat-header-cell *matHeaderCellDef>From</th>
                         <td mat-cell *matCellDef="let transaction">
-                            <a 
-                                href="{{ transaction?.from | linkNFTAddr }}" 
-                                target="_blank" 
+                            <a
+                                href="{{ transaction?.from | linkNFTAddr }}"
+                                target="_blank"
                                 *ngIf="transaction?.from">
                                 {{ transaction?.from | addrCutFromHead | uppercase }}
                             </a>
@@ -147,9 +124,9 @@
                     <ng-container matColumnDef="transaction-to">
                         <th mat-header-cell *matHeaderCellDef>To</th>
                         <td mat-cell *matCellDef="let transaction">
-                             <a 
-                                href="{{ transaction?.to | linkNFTAddr }}" 
-                                target="_blank" 
+                             <a
+                                href="{{ transaction?.to | linkNFTAddr }}"
+                                target="_blank"
                                 *ngIf="transaction?.to">
                                 {{ transaction?.to | addrCutFromHead | uppercase }}
                             </a>
@@ -159,17 +136,17 @@
                         <th mat-header-cell *matHeaderCellDef>Date</th>
                         <td mat-cell *matCellDef="let transaction"> {{ transaction?.date | timeago }} </td>
                     </ng-container>
-                    <tr mat-header-row 
+                    <tr mat-header-row
                         *matHeaderRowDef="transactionColums; sticky: true"
                     ></tr>
-                    <tr mat-row 
+                    <tr mat-row
                         *matRowDef="let transaction; columns: transactionColums;">
                     </tr>
                     <tr class="mat-row-no-data" *matNoDataRow>
                         <td class="mat-cell" colspan="100%">{{ isTransactionLoadFail.errorMsg | titlecase }}</td>
                     </tr>
                 </table>
-                <mat-spinner 
+                <mat-spinner
                     *ngIf="isTransactionLoading"
                     [diameter]="20"
                 ></mat-spinner>

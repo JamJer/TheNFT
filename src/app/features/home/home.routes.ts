@@ -1,7 +1,6 @@
 import { Routes } from "@angular/router";
 import { UIFuncType } from "src/app/core";
-import { NFTDtailComponent, SearchingComponent } from "src/app/shared/components/main";
-import { IntroComponent } from "../intro/intro.component";
+import { NFTDtailComponent, SearchingComponent, DefaultComponent } from "src/app/shared/components/main";
 import { HomeComponent } from "./home.component";
 
 export const routes: Routes = [
@@ -11,7 +10,7 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: NFTDtailComponent,
+                component: DefaultComponent,
             },
             {
                 path: UIFuncType.searching,
@@ -23,7 +22,7 @@ export const routes: Routes = [
             },
             {
                 path: '**',
-                component: NFTDtailComponent,
+                component: DefaultComponent,
             }
         ]
     }

@@ -6,13 +6,38 @@ $rowHeight: 2rem;
     height: 100vh;
     display: flex;
     flex-flow: column nowrap;
-    background-color: $secondaryColor;
+    background: transparent;
     @include box-shadow-default;
     @include main-font-family;
     padding: 12.5rem 20px;
-    position: sticky;
+    position: fixed;
     top: 0;
-    color: gray;
+    color: white;
+    margin-top: 68px;
+
+    @include respond-below(sm) {
+      height: 3.5rem;
+      weight: 100%;
+      padding: 1rem;
+      position: relative;
+      top: 1.2rem;
+
+      .search-filter-wrapper {
+        flex-flow: row wrap;
+        overflow: hidden;
+
+        .search-filter-title {
+          display: flex;
+          flex-flow: row nowrap;
+          justify-content: space-between;
+
+          .filter-icon {
+            display: block;
+          }
+        }
+
+      }
+    }
 
     .search-input-container {
         .search-input-app {
@@ -31,15 +56,18 @@ $rowHeight: 2rem;
             span {
                 display: block;
                 font-size: 1.5rem;
-                color: gray;
                 margin-bottom: 5px;
             };
+
+            .filter-icon {
+              font-size: x-large;
+              display: none;
+            }
         }
 
         .search-filter-form {
             display: flex;
             flex-flow: column nowrap;
-            color: gray;
 
             input[type="radio"] {
                 display: none;
@@ -55,10 +83,9 @@ $rowHeight: 2rem;
                 margin: 0 5px 10px 0;
                 padding: 3px 5px;
                 background: #f7f7f7;
-                color: gray;
                 cursor: pointer;
                 transition:  all .1s ease-in-out;
-                
+
                 &:hover {
                     background: #bbb;
                     color: #fff;
@@ -68,7 +95,7 @@ $rowHeight: 2rem;
                     border-radius: 5px;
                 }
             }
-            
+
             .filter-chain-title {
                 margin-top: 5px;
             }
@@ -87,6 +114,6 @@ $rowHeight: 2rem;
                 flex-flow: row nowrap;
             }
         }
-        
+
     }
 }

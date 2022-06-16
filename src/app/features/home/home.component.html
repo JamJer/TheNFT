@@ -1,6 +1,6 @@
 <div [ngClass]="[(UIType$ | async) === UITypes.searching ? 'home-container-search' : 'home-container']">
     <div class="home-header-item">
-        <app-header></app-header>
+        <app-header [isScrolledOnDefault]="isDefaultScrolled"></app-header>
     </div>
     <div class="home-menu-item" *ngIf="(UIType$ | async) === UITypes.searching">
         <app-menu></app-menu>
@@ -13,7 +13,7 @@
         [infiniteScrollThrottle]="scrollThrottle"
         [immediateCheck]="true"
         (scrolled)="onScrollDown$.next($event)"
-        (scrolledUp)="onScrollUp()"   
+        (scrolledUp)="onScrollUp()"
     >
         <router-outlet></router-outlet>
     </div>

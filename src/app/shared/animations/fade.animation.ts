@@ -73,5 +73,15 @@ export const FadeFromLeft = trigger('fadeFromLeft', [
   ])
 ]);
 
+export const FadeFromRight = trigger('fadeFromRight', [
+  transition('void => *', [
+    style({ opacity:0,transform: 'translateX(10%)' }),
+    animate(800)
+  ]),
+  transition('* => void', [
+    animate(800, style({ opacity:0,transform: 'translateX(10%)' }))
+  ])
+]);
+
 
   

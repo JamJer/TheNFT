@@ -1,7 +1,8 @@
-<div class="menu-container" @fadeFromLeft>
+<div class="menu-container">
     <div class="search-filter-wrapper">
         <div class="search-filter-title">
             <span>Filter</span>
+            <fa-icon class="filter-icon" [icon]="icons.stack"></fa-icon>
         </div>
         <div class="search-input-container">
             <div class="search-input-title">
@@ -19,8 +20,8 @@
                 <ng-container *ngFor="let chainType of chainTypes">
                     <div>
                         <label>
-                            <input 
-                                type="radio" 
+                            <input
+                                type="radio"
                                 formControlName="selectedChainType"
                                 name="selectedChainType"
                                 [value]="chainType"
@@ -39,8 +40,8 @@
                 <ng-container *ngFor="let orderType of orderTypes">
                     <div>
                         <label>
-                            <input 
-                                type="radio" 
+                            <input
+                                type="radio"
                                 formControlName="selectedOrderBy"
                                 name="selectedOrderBy"
                                 [value]="orderType"

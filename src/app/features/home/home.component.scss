@@ -1,17 +1,16 @@
 @import 'styles.scss';
 
-.home-header-item { 
+.home-header-item {
     grid-area: header;
     background-color: $defaultbackgroundColor;
 }
-.home-menu-item { 
+.home-menu-item {
     grid-area: menu;
-    background-color: $secondaryColor; 
+    background: transparent;
 }
-.home-main-item { 
-    grid-area: main; 
-    background-color: $defaultMainContentColor;
-    padding: 7rem 2rem;
+.home-main-item {
+    grid-area: main;
+    padding: 5rem 2rem;
 
     &::after {
         content: '';
@@ -20,26 +19,37 @@
         height: 10rem;
     }
 }
-.home-footer-item { 
-    grid-area: footer; 
+.home-footer-item {
+    grid-area: footer;
     background-color: $primaryColor;
 }
 
 @mixin grid-template {
     display: grid;
+    min-height: 100vh;
     grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr));
+    grid-template-rows: auto 100% 10rem;
 }
 .home-container {
     @include grid-template;
-    grid-template-areas: 
+    grid-template-areas:
         'header header header header header header'
         'main   main   main   main   main   main'
         'footer footer footer footer footer footer';
 }
 .home-container-search {
     @include grid-template;
-    grid-template-areas: 
+    grid-template-areas:
         'header header header header header header'
         'menu   main   main   main   main   main'
         'footer footer footer footer footer footer';
+
+    @include respond-below(sm) {
+      grid-template-rows: auto 10rem 100% 10rem;
+      grid-template-areas:
+        'header header header header header header'
+        'menu   menu   menu   menu   menu   menu'
+        'main   main   main   main   main   main'
+        'footer footer footer footer footer footer';
+    }
 }
