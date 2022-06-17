@@ -2,6 +2,10 @@
 
 $rowHeight: 2rem;
 
+.filter-expend {
+  height: auto !important;
+}
+
 .menu-container {
     height: 100vh;
     display: flex;
@@ -14,35 +18,31 @@ $rowHeight: 2rem;
     top: 0;
     color: white;
     margin-top: 68px;
+    overflow: hidden;
+    transition: all .3 ease-in-out;
 
     @include respond-below(sm) {
       height: 3.5rem;
-      weight: 100%;
+      max-height: 15rem;
+      width: 100%;
       padding: 1rem;
-      position: relative;
+      @include defaultGradientBackground;
       top: 1.2rem;
+      z-index: 10;
 
       .search-filter-wrapper {
-        flex-flow: row wrap;
-        overflow: hidden;
 
         .search-filter-title {
-          display: flex;
-          flex-flow: row nowrap;
-          justify-content: space-between;
-
           .filter-icon {
-            display: block;
+            display: inline !important;
           }
         }
 
-      }
-    }
-
-    .search-input-container {
-        .search-input-app {
-            width: 100%;
+        .search-input-container {
+          margin-top: 1rem;
         }
+
+      }
     }
 
     .search-filter-wrapper {
@@ -52,16 +52,26 @@ $rowHeight: 2rem;
         transition: all .3s ease-in-out;
 
         .search-filter-title {
+          display: block;
 
             span {
-                display: block;
-                font-size: 1.5rem;
-                margin-bottom: 5px;
+              display: inline;
+              font-size: 1.5rem;
+              margin-bottom: 5px;
             };
 
             .filter-icon {
               font-size: x-large;
+              float: right;
+              top: 0;
+              cursor: pointer;
               display: none;
+            }
+        }
+
+        .search-input-container {
+            .search-input-app {
+                width: 100%;
             }
         }
 
@@ -69,31 +79,16 @@ $rowHeight: 2rem;
             display: flex;
             flex-flow: column nowrap;
 
-            input[type="radio"] {
-                display: none;
-                &:checked + .button {
-                    background: #5e7380;
-                    color: #fff;
-                    cursor: default;
-                }
-            }
+            mat-button-toggle-group {
+              height: 2rem;
+              width: 100%;
+              align-items: center;
+              background: $defaultMainContentColor;
+              font-weight: 500;
 
-            .button {
-                display: inline-block;
-                margin: 0 5px 10px 0;
-                padding: 3px 5px;
-                background: #f7f7f7;
-                cursor: pointer;
-                transition:  all .1s ease-in-out;
-
-                &:hover {
-                    background: #bbb;
-                    color: #fff;
-                }
-
-                .round {
-                    border-radius: 5px;
-                }
+              mat-button-toggle {
+                width: 100%;
+              }
             }
 
             .filter-chain-title {
@@ -103,6 +98,7 @@ $rowHeight: 2rem;
             .filter-chain-radios {
                 display: flex;
                 flex-flow: row nowrap;
+                width: 100%;
             }
 
             .filter-orderBy-title {

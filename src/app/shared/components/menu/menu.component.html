@@ -1,8 +1,8 @@
-<div class="menu-container">
+<div class="menu-container" [ngClass]="{'filter-expend': isExpend}">
     <div class="search-filter-wrapper">
         <div class="search-filter-title">
             <span>Filter</span>
-            <fa-icon class="filter-icon" [icon]="icons.stack"></fa-icon>
+            <fa-icon class="filter-icon" [icon]="icons.stack" (click)="onclickStackIcon()"></fa-icon>
         </div>
         <div class="search-input-container">
             <div class="search-input-title">
@@ -17,41 +17,33 @@
                 <span>Chain</span>
             </div>
             <div class="filter-chain-radios">
+              <mat-button-toggle-group
+                formControlName="selectedChainType"
+                name="selectedChainType"
+                [value]="filterForm.get('selectedChainType')?.value"
+              >
                 <ng-container *ngFor="let chainType of chainTypes">
-                    <div>
-                        <label>
-                            <input
-                                type="radio"
-                                formControlName="selectedChainType"
-                                name="selectedChainType"
-                                [value]="chainType"
-                            >
-                            <span class="round button">
-                                {{ chainType | titlecase }}
-                            </span>
-                        </label>
-                    </div>
+                  <mat-button-toggle [value]="chainType">
+                    {{ chainType | titlecase }}
+                  </mat-button-toggle>
                 </ng-container>
+              </mat-button-toggle-group>
             </div>
             <div class="filter-orderBy-title">
                 <span>Order By</span>
             </div>
             <div class="filter-orderBy-radios">
+              <mat-button-toggle-group
+                formControlName="selectedOrderBy"
+                name="selectedOrderBy"
+                [value]="filterForm.get('selectedOrderBy')?.value"
+              >
                 <ng-container *ngFor="let orderType of orderTypes">
-                    <div>
-                        <label>
-                            <input
-                                type="radio"
-                                formControlName="selectedOrderBy"
-                                name="selectedOrderBy"
-                                [value]="orderType"
-                            >
-                            <span class="round button">
-                                {{ orderType | titlecase }}
-                            </span>
-                        </label>
-                    </div>
+                  <mat-button-toggle [value]="orderType">
+                    {{ orderType | titlecase }}
+                  </mat-button-toggle>
                 </ng-container>
+              </mat-button-toggle-group>
             </div>
         </form>
     </div>

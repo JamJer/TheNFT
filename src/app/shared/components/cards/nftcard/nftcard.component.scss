@@ -1,8 +1,8 @@
 @import 'styles.scss';
 
 .NFTCard-container {
-    $cwidth: 17rem;
-    $cheight: 22rem;
+    $cwidth: 100%;
+    $cheight: 100%;
     display: block;
     border: none;
     @include BorderRadiusFull;
@@ -36,6 +36,9 @@
     .NFT-image-container {
         overflow: hidden;
         height: calc($cheight - 6rem);
+        @include respond-below(sm) {
+          height: calc($cheight - 4.3rem);
+        }
     }
 
     .NFT-content {
@@ -53,6 +56,11 @@
             padding: 0px 10px;
             text-align: center;
             text-overflow: ellipsis;
+            @include respond-below(sm) {
+              font-size: smaller;
+              height: 15px;
+              padding: 0px 5px;
+            }
         }
 
         .NFT-title-scroll {
@@ -70,7 +78,7 @@
                 animation-direction: normal;
                 }
             }
-        
+
             @keyframes scroll-text-X {
                 0% {
                     transform: translateX(0%);
@@ -97,10 +105,13 @@
         .NFT-description {
             color: rgb(70, 67, 67);
             @include main-font-family;
-            
+
             font-size: 5px;
             padding: 0px 10px;
-
+            @include respond-below(sm) {
+              font-size: 3px;
+              padding: 0px 5px;
+            }
             span {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
@@ -108,6 +119,9 @@
                 overflow: hidden;
                 word-break: keep-all;
                 line-height: 15px;
+                @include respond-below(sm) {
+                  line-height: 10px;
+                }
             }
         }
 
@@ -126,7 +140,7 @@
                     animation-direction: normal;
                 }
             }
-        
+
             @keyframes scroll-text-Y {
                 0% {
                     transform: translateY(0%);

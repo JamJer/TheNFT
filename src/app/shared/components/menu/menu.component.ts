@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators  } from '@angular/forms';
 import { FadeFromLeft, Fade } from '../../animations';
 import { BaseComponent, chainType, DataService, order_type, UIService } from 'src/app/core';
@@ -8,16 +8,19 @@ import { Observable, takeUntil } from 'rxjs';
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
-  animations: [ 
+  animations: [
     FadeFromLeft,
     Fade
   ]
 })
 export class MenuComponent extends BaseComponent implements OnInit {
-  filterForm!: FormGroup;  
+  @ViewChild('menuContainer') menu?: ElementRef;
+
+  filterForm!: FormGroup;
   chainTypes: Array<string> = Object.keys(chainType);
-  orderTypes: Array<string> = Object.keys(order_type); 
+  orderTypes: Array<string> = Object.keys(order_type);
   currentFilterForm$!: Observable<any>;
+  isExpend: boolean = false;
 
   constructor(private uiservice: UIService, private dataservice: DataService, private formBuilder: FormBuilder) {
     super();
@@ -50,17 +53,21 @@ export class MenuComponent extends BaseComponent implements OnInit {
     );
     this.currentFilterForm$.subscribe(() => {
       const controls = this.filterForm.controls;
-      const newAttribute = { 
+      const newAttribute = {
         chain: controls['selectedChainType'].value,
         order_by: controls['selectedOrderBy'].value
       };
       this.uiservice.updateSearchQuery(newAttribute);
       this.dataservice.reSearchNFT();
-      window.scroll({ 
-        top: 0, 
-        left: 0, 
-        behavior: 'smooth' 
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
       });
     });
+  }
+
+  onclickStackIcon() {
+    this.isExpend = !this.isExpend;
   }
 }

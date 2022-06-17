@@ -34,6 +34,10 @@
     row-gap: 1rem;
     align-content: center;
     padding: .5rem;
+
+    @include respond-below(sm) {
+      width: 90vw;
+    }
 }
 @keyframes scaleXForHr {
     from {
@@ -65,6 +69,13 @@
     @include main-font-family;
     @include respond-below(lg) {
       flex-flow: column nowrap;
+      align-items: center;
+      column-gap: 0;
+      row-gap: 8rem;
+      margin-top: 2rem;
+    }
+    @include respond-below(sm) {
+      row-gap: 0;
     }
     .Detail-left {
         @include detail-base;
@@ -286,7 +297,9 @@
             transform-origin: top;
             animation: scaleXForHr .3s ease-out;
             @include lightBlurBackground;
-
+            @include respond-below(sm) {
+              height: 21rem;
+            }
             .current-sale {
                 display: flex;
                 flex-flow: row nowrap;
@@ -319,7 +332,6 @@
 
                 table {
                     @include lightBlurBackground;
-                    height: 100%;
 
                     .mat-column-transaction-event {
                         width: 10%;

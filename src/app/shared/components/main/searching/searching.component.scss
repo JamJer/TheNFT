@@ -5,6 +5,25 @@
     flex-flow: row wrap;
     gap: 20px;
     justify-content: center;
+
+    @include respond-below(sm) {
+      gap: 10px;
+      justify-content: space-between;
+    }
+
+    app-nftcard {
+      $ratio: 1.29411765;
+      $defautWidth: 17rem;
+      width: $defautWidth;
+      height: calc($defautWidth * $ratio);
+
+      @include respond-below(sm) {
+        $defautWidth: 44vw;
+        width: $defautWidth;
+        height: calc($defautWidth * $ratio);
+      }
+
+    }
 }
 .noresultinfo {
     display: flex;
