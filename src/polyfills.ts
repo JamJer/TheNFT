@@ -17,7 +17,8 @@
 /***************************************************************************************************
  * BROWSER POLYFILLS
  */
-
+import 'core-js/es/typed-array';
+import 'core-js/es/object';
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags
@@ -51,3 +52,7 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+ (window as any).global = window;
+ (window as any).process = {
+   env: { DEBUG: undefined },
+ };

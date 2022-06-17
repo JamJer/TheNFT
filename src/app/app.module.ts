@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { BackendInterceptorService, NFTInterceptorService, SecureHttpInterceptorService } from './core/services';
 import { TimeagoModule } from 'ngx-timeago';
+import { AmplifyAuthenticatorModule } from '@aws-amplify/ui-angular';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TimeagoModule } from 'ngx-timeago';
     HttpClientModule,
     AppRoutingModule,
     FontAwesomeModule,
-    TimeagoModule.forRoot()
+    TimeagoModule.forRoot(),
+    AmplifyAuthenticatorModule,
   ],
   providers: [
     {
