@@ -13,8 +13,8 @@
             <ng-container *ngFor="let intro of introList">
                 <mat-card class="intro-card">
                     <fa-icon
-                        class="card-icon" 
-                        [icon]="icons[intro.icon]" 
+                        class="card-icon"
+                        [icon]="icons[intro.icon]"
                     ></fa-icon>
                     <mat-card-title-group>
                         <mat-card-title>{{ intro.title | titlecase }}</mat-card-title>
@@ -25,5 +25,27 @@
                 </mat-card>
             </ng-container>
         </div>
+    </div>
+    <div class="promo-mobile-search">
+      <div
+        class="img-mobile-search"
+        elementVisibility
+        [debounceTime]="0"
+        [threshold]="0.95"
+        (visible)="loadPormoMobileImage($event)"
+      >
+        <img [src]="promoMobileSearchSrc">
+      </div>
+      <div class="img-promo-descrition">
+        <div class="descrition-title">
+          <span>Search for any NFT, anywhere!</span>
+        </div>
+        <div class="descrition-content">
+          <span>Use TheNFT to track your favorite NFTs and discover drops</span>
+        </div>
+        <div class="descrition-expore" (click)="setUI(UITypes.searching)">
+          <button mat-flat-button>Explore Now</button>
+        </div>
+      </div>
     </div>
 </div>

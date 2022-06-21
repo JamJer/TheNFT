@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent, Icons, NFTDetail, UIService } from 'src/app/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BaseComponent, Icons, NFTDetail, UIFuncType, UIService } from 'src/app/core';
 import { environment as env } from 'src/environments/environment.prod';
 
 @Component({
@@ -15,7 +16,10 @@ export class DefaultComponent extends BaseComponent implements OnInit {
     content: string,
   }[];
 
-  constructor(private _ui: UIService) {
+  promoMobileSearchSrc?: string;
+  UITypes = UIFuncType;
+  
+  constructor(private _ui: UIService, private router: Router, private activatedRoute: ActivatedRoute) {
     super();
    }
 
@@ -26,5 +30,13 @@ export class DefaultComponent extends BaseComponent implements OnInit {
 
   loadIntroList(): void {
     this.introList = env.introData as unknown as typeof this.introList;
+  }
+
+  loadPormoMobileImage($event: any): void {
+    this.promoMobileSearchSrc = '../../../../../assets/image/promo/mobile-search-5.gif';
+  }
+
+  setUI(uiType: UIFuncType) {
+    this.router.navigate([uiType === UIFuncType.default ? '/home' : uiType], {relativeTo: this.activatedRoute});
   }
 }
