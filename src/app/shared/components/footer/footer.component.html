@@ -1,1 +1,50 @@
-<p>footer works!</p>
+<div class="footer-container">
+  <div class="footer-wrapper">
+    <div class="footer-top">
+      <div class="footer-left">
+        <div
+          class="copy-right"
+          elementVisibility
+          [debounceTime]="0"
+          [threshold]="0.95"
+          (visible)="isLogoIntoView($event)"
+        >
+          <img [src]="nftportImag">
+          <span>
+            The functions provided of the project is based on NFTPort.
+          </span>
+        </div>
+      </div>
+      <div class="footer-right">
+        <div class="contact">
+          <div class="info">
+            <span>Contact me if you like</span>
+            <div class="icons">
+              <a href="tel:+886-979-091-221" target="_blank">
+                <fa-icon [icon]="icons.phone"></fa-icon>
+              </a>
+              <span>+886-979-091-221</span>
+              <a href="https://github.com/JamJer" target="_blank">
+                <fa-icon [icon]="icons.github"></fa-icon>
+              </a>
+              <a href="https://www.facebook.com/jamjarhong/" target="_blank">
+                <fa-icon [icon]="icons.facebook"></fa-icon>
+              </a>
+            </div>
+          </div>
+          <img
+            elementVisibility
+            [debounceTime]="0"
+            [threshold]="0.95"
+            (visible)="isMeIntoView($event)"
+            [src]="meImag">
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>
+        © TheNFT, All rights reserved.
+      </span>
+    </div>
+  </div>
+</div>

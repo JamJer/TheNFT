@@ -19,10 +19,14 @@ import {
     faShapes as cubies,
     faPhotoVideo as picture,
     faAlignJustify as stack,
+    faPhoneSquareAlt as phone,
+    faSmileWink as smile,
 } from '@fortawesome/free-solid-svg-icons';
 
 import {
-    faEthereum as ethereum
+    faEthereum as ethereum,
+    faGithubSquare as github,
+    faFacebookSquare as facebook,
 } from '@fortawesome/free-brands-svg-icons';
 
 export const Icons = {
@@ -45,4 +49,8 @@ export const Icons = {
     cubies: cubies,
     picture: picture,
     stack: stack,
+    phone: phone,
+    github: github,
+    smile: smile,
+    facebook: facebook,
 };

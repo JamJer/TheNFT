@@ -25,7 +25,7 @@
 }
 .home-footer-item {
     grid-area: footer;
-    background-color: $primaryColor;
+    background-color: transparent;
 }
 
 @mixin grid-template {
