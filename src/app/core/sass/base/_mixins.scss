@@ -47,7 +47,7 @@
 }
 
 @mixin box-shadow-default {
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);; 
+    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
 }
 
@@ -68,7 +68,6 @@
 
 @mixin lightBlurBackground {
     background: rgba(203, 241, 253, 0.85);
-    backdrop-filter: blur(5px);
 }
 
 @mixin defaultGradientBackground {

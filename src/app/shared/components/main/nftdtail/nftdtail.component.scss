@@ -76,6 +76,7 @@
     }
     @include respond-below(sm) {
       row-gap: 0;
+      margin-top: 5rem;
     }
     .Detail-left {
         @include detail-base;
