@@ -9,7 +9,7 @@
         </div>
         <div class="navbar-options">
             <a href="javascript:void(0)" (click)="setUI(UITypes.searching)">Expore</a>
-            <a href="javascript:void(0)">Create</a>
+            <a href="javascript:void(0)" (click)="setUI(UITypes.create)">Create</a>
             <a href="javascript:void(0)">Feed</a>
         </div>
         <div class="navbar-search" [hidden]="(UIType$ | async) !== UITypes.default || isScrolledOnDefault">
@@ -29,7 +29,7 @@
             </div>
             <div class="create-and-expore">
                 <button mat-flat-button (click)="setUI(UITypes.searching)">Expore</button>
-                <button mat-flat-button>Create</button>
+                <button mat-flat-button (click)="setUI(UITypes.create)">Create</button>
             </div>
         </div>
         <div class="promo-right flex-1">
