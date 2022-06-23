@@ -3,4 +3,5 @@ export enum APIFuncType {
     NFTDetail = '/nfts',
     NFTransactions = '/transactions/nfts/',
     ContractSaleStatistic = '/transactions/stats/',
+    easymint = '/mints/easy/files',
 }

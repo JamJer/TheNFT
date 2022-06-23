@@ -14,7 +14,7 @@ export class UIService {
 
   constructor() {
     this._defaultStateObject = {
-      UIStatus: UIFuncType.default,
+      UIStatus: UIFuncType.create,
       searchQuery: {} as NFTSearchQuery,
       searchNFTs: [],
       currentNFT: env.tmpNFT as unknown as NFTDetail,
@@ -136,6 +136,16 @@ export class UIService {
     });
   }
 
+  updateCurrentNFTDetail(updates: Partial<NFTDetail>): void {
+    if(!Object.entries(this.currentNFTDetail).length) return;
+    this.currentNFTDetail = ToolsService.updatePartialObject<NFTDetail>(this.currentNFTDetail, updates);
+  }
+  // -------NFT Detail-------
+  
+  // -------NFT Create-------
+  
+  // -------NFT Create-------
+
   // ------NFT Promo------
   set promoNFT(nfts: NFTDetail[]) {
     this._updateCurrentState({
@@ -158,12 +168,6 @@ export class UIService {
   }
   // ------NFT Promo------
 
-  updateCurrentNFTDetail(updates: Partial<NFTDetail>): void {
-    if(!Object.entries(this.currentNFTDetail).length) return;
-    this.currentNFTDetail = ToolsService.updatePartialObject<NFTDetail>(this.currentNFTDetail, updates);
-  }
-  // -------NFT Detail-------
-  
   // -------UI Status-------
   set UIStatus(newStatus: UIFuncType) {
     const currentUIStatus = this._getCurrentState().UIStatus;

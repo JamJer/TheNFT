@@ -1,5 +1,6 @@
 export enum UIFuncType {
     default = 'default',
     searching = 'searching',
-    NFTDetail = 'NFTDetail'
+    NFTDetail = 'NFTDetail',
+    create = 'create',
 }

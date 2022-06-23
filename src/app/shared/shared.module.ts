@@ -14,6 +14,7 @@ import { DefaultComponent } from './components/main/default/default.component';
 import { NftpreviewComponent } from './components/cards/nftpreview/nftpreview.component';
 import { ContainerGalleryHoverComponent } from './components/commons/container-gallery-hover/container-gallery-hover.component';
 import { CarouselSliderComponent } from './components/commons/carousel-slider/carousel-slider.component';
+import { CreateComponent } from './components/main/create/create.component';
 
 const FORSHAREDUSE = [
   PriceSaleComponent,
@@ -39,7 +40,8 @@ const FORSHAREDUSE = [
       ...COMPONENTS,
       ...CustomPipes,
       ...CustomDirectives,
-      ...FORSHAREDUSE
+      ...FORSHAREDUSE,
+      CreateComponent
     ],
     exports: [
         ...COMPONENTS,

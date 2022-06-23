@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment as env } from '../../../../environments/environment.prod';
 import { catchError, map, Observable, of, Subscription, tap } from 'rxjs';
-import { NFTCard, NFTSearchQuery, APIFuncType, NFTSearchResponse, NFTDetail, NFTDetailResponse, NFTDetailQuery, NFTransactionsRecords, NFTransactionResponse, NFTransactionQuery, ContractSaleStatistic, ContractSaleStatisticQuery } from '../../models';
+import { NFTCard, NFTSearchQuery, APIFuncType, NFTSearchResponse, NFTDetail, NFTDetailResponse, NFTDetailQuery, NFTransactionsRecords, NFTransactionResponse, NFTransactionQuery, ContractSaleStatistic, ContractSaleStatisticQuery, createEasyResponse, CreateEasyQuery } from '../../models';
 import { UIService } from '../UI/ui.service'; 
 import { ToolsService } from '../commons';
 import { ContractSaleStatisticResponse } from '../../models/data/NFT/Response/Contract/contract.model';
+import { createEasy } from '../../models/data/NFT/Create';
 
 @Injectable({
   providedIn: 'root'
@@ -105,6 +106,19 @@ export class DataService {
     return this._requestContractStatistic(path, config);
   }
 
+
+  getEasyCreateMint(query: CreateEasyQuery): Observable<createEasy> {
+    const path = DataService.APIPath + 
+                 APIFuncType.easymint;
+    const params = new HttpParams({ 
+      fromObject: ToolsService.convertToObject(query) 
+    });
+    const config = {
+      params
+    };
+    return this._requestEasyCreateMint(path, config);
+  }
+
   private _requestNFTs(path: string, config: any): Observable<NFTCard[]> {
     return this.http.get<Observable<NFTCard[]>>(path, config).pipe(
       map(response => (<NFTSearchResponse><unknown>response).search_results),
@@ -134,7 +148,6 @@ export class DataService {
   private _requestNFTransactions(path: string, config: any): Observable<NFTransactionsRecords[]> {
     return this.http.get<Observable<NFTransactionsRecords[]>>(path, config).pipe(
       map(data => {
-        console.log(data);
         const {transactions, continuation} = (<NFTransactionResponse><unknown>data);
         this.uiservice.currentNFTDetail.continuation = continuation ?? "";
         return transactions as NFTransactionsRecords[];
@@ -148,6 +161,16 @@ export class DataService {
         console.log(data);
         const { statistics } = (<ContractSaleStatisticResponse><unknown>data);
         return statistics as ContractSaleStatistic;
+      })
+    );
+  }
+
+  private _requestEasyCreateMint(path: string, config: any): Observable<createEasy> {
+    return this.http.get<Observable<createEasy>>(path, config).pipe(
+      map(data => {
+        console.log(data);
+        const { response, ...rest } = (<createEasyResponse><unknown>data);
+        return rest as createEasy;
       })
     );
   }
