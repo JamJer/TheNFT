@@ -14,7 +14,7 @@ export class UIService {
 
   constructor() {
     this._defaultStateObject = {
-      UIStatus: UIFuncType.create,
+      UIStatus: UIFuncType.default,
       searchQuery: {} as NFTSearchQuery,
       searchNFTs: [],
       currentNFT: env.tmpNFT as unknown as NFTDetail,
