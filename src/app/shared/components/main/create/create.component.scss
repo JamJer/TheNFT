@@ -1,5 +1,21 @@
 @import 'styles.scss';
 
 .create-container {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  margin-top: 5rem;
   
+  @mixin default-title {
+    font-size: xx-large;
+    font-weight: bolder;
+    color: white;
+
+    @include respond-below(sm) {
+        font-size: x-large;
+    }
+    }
+    .create-title {
+        @include default-title;
+    }
 }
