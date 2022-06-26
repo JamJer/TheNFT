@@ -66,7 +66,7 @@
     flex-flow: row nowrap;
     justify-content: center;
     column-gap: 1.5rem;
-    @include main-font-family;
+    
     @include respond-below(lg) {
       flex-flow: column nowrap;
       align-items: center;
@@ -82,7 +82,7 @@
         @include detail-base;
 
         .Detail-media {
-            @include box-shadow-default;
+            @extend %box-shadow-default;
             @include NFTTopBarderRadiusTopOnly;
 
             overflow: hidden;
@@ -122,7 +122,7 @@
 
         .Detail-contract {
             visibility: hidden;
-            @include box-shadow-default;
+            @extend %box-shadow-default;
             animation: scaleYForHr .5s ease-out .1s forwards;
             transform-origin: top;
             height: 10rem;
@@ -211,7 +211,7 @@
         @include detail-base;
 
         .Detail-content {
-            @include box-shadow-default;
+            @extend %box-shadow-default;
             width: 100%;
             height: 13rem;
             padding: 10px 20px;
@@ -290,7 +290,7 @@
             }
         }
         .NFT-Pricesale {
-            @include box-shadow-default;
+            @extend %box-shadow-default;
             width: 100%;
             height: 17rem;
             padding: 10px 20px;
@@ -318,7 +318,7 @@
         }
 
         .NFT-transaction {
-            @include box-shadow-default;
+            @extend %box-shadow-default;
             display: flex;
             flex-direction: column;
             height: 10rem;

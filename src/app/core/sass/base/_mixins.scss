@@ -1,3 +1,21 @@
+// Common use
+@mixin custom-box-shadow($shadow...) {
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
+    box-shadow: $shadow;
+}
+@mixin custom-transform($property) {
+    -webkit-transform: $property;
+    -ms-transform: $property;
+    -moz-transform: $property;
+    transform: $property;
+}
+@mixin custom-flex-container($direction, $isWrap) {
+    display: flex;
+    flex-flow: $direction;
+}
+
+// RWD Related
 @mixin respond-above($breakpoint) {
     @if map-has-key($breakpoints , $breakpoint) {
         $breakpoint-value: map-get($breakpoints, $breakpoint);
@@ -35,35 +53,21 @@
     }
 }
 
-@mixin main-bg-gra-color {
+// feature related
+@mixin main-title-background-gradient {
     background: linear-gradient(269.59deg, #3F85F6 -12.09%, #468AF7 5.6%, #5898F9 16.65%, #6FA9FA 28.83%, #82B7FB 40.81%, #99C8FE 52.8%, #A6CFFD 63.25%, #B6D8FE 74.69%, #C4DFFD 83.98%, #D0E5FD 91.6%, #D8E9FE 97.7%, #D9E9FE 110.64%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
 }
 
-@mixin main-font-family {
-    font-family: 'Trebuchet MS', sans-serif;
-}
-
-@mixin box-shadow-default {
-    -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);;
-}
-
 @mixin BorderRadiusFull {
-    border-radius: $borderRadius;
+    border-radius: $defaultBorderRadius;
 }
 
 @mixin NFTTopBarderRadiusTopOnly {
-    border-top-left-radius: $borderRadius;
-    border-top-right-radius: $borderRadius;
-}
-
-@mixin defaultBlurBackground {
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
-    backdrop-filter: blur(20px);
+    border-top-left-radius: $defaultBorderRadius;
+    border-top-right-radius: $defaultBorderRadius;
 }
 
 @mixin lightBlurBackground {

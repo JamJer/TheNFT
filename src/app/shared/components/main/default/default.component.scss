@@ -6,7 +6,7 @@
     align-items: center;
     justify-content: flex-start;
     row-gap: 4rem;
-    @include main-font-family;
+    
 
     @mixin default-title {
         font-size: xx-large;
@@ -94,7 +94,7 @@
       }
 
       .img-mobile-search {
-        @include box-shadow-default;
+        @extend %box-shadow-default;
 
         @include respond-below(lg) {
           @include respond-below-lg;
@@ -136,7 +136,7 @@
             height: 50px;
             width: 130px;
             background-image: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
-            @include box-shadow-default;
+            @extend %box-shadow-default;
             font-size: large;
             color: white;
             transition: all .3s ease-in-out;

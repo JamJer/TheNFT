@@ -11,8 +11,8 @@ $rowHeight: 2rem;
     display: flex;
     flex-flow: column nowrap;
     background: transparent;
-    @include box-shadow-default;
-    @include main-font-family;
+    @extend %box-shadow-default;
+    
     padding: 12.5rem 20px;
     position: fixed;
     top: 0;

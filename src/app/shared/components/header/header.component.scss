@@ -70,7 +70,7 @@
     background: $defaultbackgroundColor;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     overflow: hidden;
-    @include box-shadow-default;
+    @extend %box-shadow-default;
     position: relative;
 
     .header-stars-background {
@@ -105,12 +105,12 @@
                 animation: wiggle 2s linear;
             }
             a {
-                @include main-font-family;
+                
                 font-style: normal;
                 font-weight: 600;
                 font-size: 30px;
                 line-height: 36px;
-                @include main-bg-gra-color;
+                @include main-title-background-gradient;
 
             }
         }
@@ -121,7 +121,7 @@
             column-gap: 2rem;
 
             a {
-                @include main-font-family;
+                
                 text-decoration: none;
                 text-align: center;
                 font-style: normal;
@@ -144,9 +144,9 @@
     }
 
     .header-navbar-scroll {
-        @include defaultBlurBackground;
+        @extend %defaultHeaderNavbarBackground;
+        @extend %box-shadow-default;
         z-index: 10;
-        @include box-shadow-default;
     }
     .header-progress {
         position: fixed;
@@ -162,7 +162,7 @@
         padding: 0 10vw;
         justify-content: center;
         background-color: transparent;
-        @include main-font-family;
+        
         position: relative;
         margin-top: 3rem;
 
@@ -198,14 +198,14 @@
                     color: white;
                     border: none;
                     border: .5px solid gray;
-                    border-radius: $borderRadius;
+                    border-radius: $defaultBorderRadius;
                     height: 100%;
                     width: 25%!important;
                     min-width: unset!important;
                     font-size: larger;
                     background-color: transparent;
                     transition: all .1s ease-in-out;
-                    @include box-shadow-default;
+                    @extend %box-shadow-default;
 
                     @mixin button-hover-img {
                         background-size: cover;
@@ -215,7 +215,7 @@
                         transform: scale(1.05);
                     }
                     &:first-child {
-                        @include main-bg-gra-color;
+                        @include main-title-background-gradient;
                         &:hover {
                             background: url('../../../../assets/image/promo/explore-galaxy.gif') no-repeat;
                             @include button-hover-img;

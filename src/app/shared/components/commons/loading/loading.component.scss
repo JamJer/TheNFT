@@ -231,7 +231,7 @@
 	-webkit-animation: loading-text-opacity 2s linear 0s infinite normal;
 	animation: loading-text-opacity 2s linear 0s infinite normal;
 	color: $primaryColor;
-	@include main-font-family;
+	
 	font-size: 10px;
 	font-weight: bold;
 	margin-top: 45px;

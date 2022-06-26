@@ -11,7 +11,7 @@
 .search-on-header {
 
     .search-input[type=text] {
-        @include main-font-family;
+        
         border: 2px solid $defaultborderColor;
         border-radius: 30px;
         background: transparent;
@@ -38,7 +38,7 @@
 
 .search-on-menu {
     .search-input[type=text] {
-        @include main-font-family;
+        
         background: url('../../../../assets/image/commons/Search.png') no-repeat left;
         background-size: 13px;
         border: none;

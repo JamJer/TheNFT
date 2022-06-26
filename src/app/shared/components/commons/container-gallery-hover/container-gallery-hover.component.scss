@@ -3,7 +3,7 @@
 .gallery-hover-container {
     display: flex;
     flex-flow: row-reverse;
-    height: 100%;
+    height: auto;
     width: 100%;
 
     .card {
@@ -21,13 +21,12 @@
         
         &:hover {
             transform: scale(1.05);
-            transition: .4s ease-out;
             z-index: 10;
         }
         
         &:hover ~ .card {
             position: relative;
-            transition: .4s ease-out;
+            border: 1px solid red;
         }
     }
 }

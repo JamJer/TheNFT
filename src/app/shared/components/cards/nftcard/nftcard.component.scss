@@ -10,7 +10,7 @@
     height: $cheight;
     cursor: pointer;
     transition: all .1s ease-out;
-    @include box-shadow-default;
+    @extend %box-shadow-default;
     overflow: hidden;
     position: relative;
     background-color: $buleGray;
@@ -47,7 +47,7 @@
         .NFT-title {
             width: 100%;
             display: inline-block;
-            @include main-font-family;
+            
             color: rgb(27, 27, 27);
             font-weight: bold;
             white-space: nowrap;
@@ -104,7 +104,7 @@
 
         .NFT-description {
             color: rgb(70, 67, 67);
-            @include main-font-family;
+            
 
             font-size: 5px;
             padding: 0px 10px;
